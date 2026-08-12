@@ -1,0 +1,126 @@
+{{ define "main" }}
+{{ $d := index site.Data .Site.Language.Lang | default (index site.Data "en") }}
+{{ $h := $d.home }}
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-brand">
+      <img class="hero-logo" src="{{ "images/logo.png" | relURL }}" alt="" width="96" height="96">
+      <span class="hero-wordmark">Celebi</span>
+    </div>
+    <p class="hero-badge">{{ $h.hero.badge }}</p>
+    <h1>{{ $h.hero.tagline }}</h1>
+    <p class="hero-sub">{{ $h.hero.subtitle }}</p>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 72" preserveAspectRatio="none" aria-hidden="true"><path d="M0,40 C240,72 480,8 720,28 C960,48 1200,64 1440,32 L1440,72 L0,72 Z"></path></svg>
+</section>
+
+<!-- Concepts -->
+<section id="concepts" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">{{ T "section_concepts" }}</h2>
+    <p class="section-sub">{{ T "section_concepts_sub" }}</p>
+    <div class="concept-grid">
+      {{ range (where .Site.RegularPages "Section" "concepts").ByWeight }}
+      <a class="concept-card" href="{{ .RelPermalink }}">
+        <h3>{{ .Title }}</h3>
+        <p>{{ .Params.summary }}</p>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="section">
+  <div class="container">
+    <h2 class="section-title">{{ T "section_features" }}</h2>
+    <div class="feature-grid">
+      {{ range $h.features }}
+      <div class="feature-card">
+        <div class="feature-icon">{{ partial "icon.html" .icon }}</div>
+        <h3>{{ .title }}</h3>
+        <p>{{ .text }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- Examples -->
+<section id="examples" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">{{ T "section_examples" }}</h2>
+    <p class="section-sub">{{ T "section_examples_sub" }}</p>
+    <div class="eco-grid">
+      {{ range $h.examples }}
+      <div class="eco-card example-card">
+        <p class="eco-kind">{{ .kind }}</p>
+        <h3>{{ .name }}</h3>
+        <p>{{ .text }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- News & Roadmap -->
+<section id="news" class="section">
+  <div class="container wide">
+    <h2 class="section-title">{{ T "section_news_roadmap" }}</h2>
+    <div class="nr-grid">
+      <!-- General news: talks + development news -->
+      <div class="nr-col">
+        <h3>{{ T "col_general" }}</h3>
+        {{ $general := (where .Site.RegularPages "Section" "talks") | union (where .Site.RegularPages "Section" "news") }}
+        <ul class="nr-list">
+          {{ range first 7 $general.ByDate.Reverse }}
+          <li>
+            <p class="nr-meta">
+              {{ if eq .Section "talks" }}
+              <span class="nr-badge badge-talk">{{ T "badge_talk" }}{{ with .Params.venue }} · {{ . }}{{ end }}</span>
+              {{ else }}
+              <span class="nr-badge badge-news">{{ T "badge_news" }}</span>
+              {{ end }}
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+            </p>
+            <a href="{{ .RelPermalink }}">{{ .Params.shortTitle | default .Title }}</a>
+          </li>
+          {{ end }}
+        </ul>
+        <p class="nr-more"><a href="{{ "news/" | relLangURL }}">{{ T "news_all" }} →</a></p>
+      </div>
+      <!-- Releases -->
+      <div class="nr-col">
+        <h3>{{ T "col_releases" }}</h3>
+        {{ range first 3 (where .Site.RegularPages "Section" "releases").ByDate.Reverse }}
+        <div class="nr-release">
+          <p class="nr-meta">
+            <a class="nr-version" href="{{ .RelPermalink }}">{{ .Params.version | default .Title }}</a>
+            {{ if not .Date.IsZero }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ end }}
+          </p>
+          <ul>
+            {{ range first 3 .Params.highlights }}<li>{{ . }}</li>{{ end }}
+          </ul>
+          <p class="nr-more"><a href="{{ .RelPermalink }}">{{ T "news_readmore" }} →</a></p>
+        </div>
+        {{ end }}
+        <p class="nr-more"><a href="{{ "releases/" | relLangURL }}">{{ T "releases_all" }} →</a></p>
+      </div>
+      <!-- Roadmap -->
+      <div class="nr-col" id="roadmap">
+        <h3>{{ T "section_roadmap" }}</h3>
+        <div class="nr-roadmap">
+          <h4 class="rm-current">{{ T "roadmap_current" }}</h4>
+          <ul>{{ range first 4 $h.roadmap.current }}<li>{{ . }}</li>{{ end }}</ul>
+          <h4 class="rm-near">{{ T "roadmap_near" }}</h4>
+          <ul>{{ range $h.roadmap.near }}<li>{{ . }}</li>{{ end }}</ul>
+          <h4 class="rm-future">{{ T "roadmap_future" }}</h4>
+          <ul>{{ range $h.roadmap.future }}<li>{{ . }}</li>{{ end }}</ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

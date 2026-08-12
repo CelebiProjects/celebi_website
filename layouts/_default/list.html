@@ -1,0 +1,27 @@
+{{ define "main" }}
+{{ $pages := .RegularPages }}
+{{ if eq .Section "news" }}
+  {{/* the All-news page also lists talks */}}
+  {{ $pages = ($pages | union (where .Site.RegularPages "Section" "talks")).ByDate.Reverse }}
+{{ else }}
+  {{ $pages = $pages.ByWeight }}
+  {{ if eq .Section "releases" }}{{ $pages = .RegularPages.ByDate.Reverse }}{{ end }}
+{{ end }}
+<section class="section page-head">
+  <div class="container narrow">
+    <h1 class="section-title">{{ .Title }}</h1>
+    <ul class="news-list">
+      {{ range $pages }}
+      <li{{ if .Date.IsZero }} class="nodate"{{ end }}>
+        {{ if not .Date.IsZero }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ end }}
+        <a href="{{ .RelPermalink }}">
+          {{ if eq .Section "talks" }}<span class="nr-badge badge-talk">{{ T "badge_talk" }}{{ with .Params.venue }} · {{ . }}{{ end }}</span> {{ end }}
+          {{- .Params.shortTitle | default .Title -}}
+        </a>
+        {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+{{ end }}

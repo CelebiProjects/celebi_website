@@ -1,0 +1,41 @@
+baseURL = "https://celebi.labz0.org/"
+title = "Celebi"
+theme = ""
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+hasCJKLanguage = true
+
+enableGitInfo = false
+disableKinds = ["taxonomy", "term"]
+
+[markup]
+  [markup.highlight]
+    style = "github-dark"
+    guessSyntax = true
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    languageCode = "en"
+    contentDir = "content/en"
+    weight = 1
+    [languages.en.params]
+      tagline = "Reproducible analysis management for high-energy physics"
+  [languages.zh]
+    languageName = "中文"
+    languageCode = "zh-CN"
+    contentDir = "content/zh"
+    weight = 2
+    [languages.zh.params]
+      tagline = "面向高能物理的可复现分析管理系统"
+
+[params]
+  description = "Celebi is a data analysis management toolkit for high-energy physics: structured projects, dependency tracking, impressions, and reproducible workflows."
+  author = "Mingrui Zhao"
+  github = "https://github.com/CelebiProjects/Celebi"
+  githubOrg = "https://github.com/CelebiProjects"
+  docs = "https://celebi.readthedocs.io/en/latest/"
+  deepwiki = "https://deepwiki.com/CelebiProjects/Celebi"
+  license = "Apache-2.0"
+  licenseURL = "https://github.com/CelebiProjects/Celebi/blob/main/LICENSE"

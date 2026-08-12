@@ -1,0 +1,30 @@
+# Apache vhost for celebi.labz0.org (Hugo static site)
+# Install on server:
+#   scp -P 28258 apache.conf.example root@www.labz0.org:/etc/apache2/sites-available/060-celebi.conf
+#   ssh -p 28258 root@www.labz0.org 'a2ensite 060-celebi && systemctl reload apache2'
+#
+# HTTPS (after the DNS A record for celebi.labz0.org is in place):
+#   apt install certbot python3-certbot-apache
+#   certbot --apache -d celebi.labz0.org
+
+<VirtualHost *:80>
+    ServerName celebi.labz0.org
+    ServerAdmin webmaster@labz0.org
+
+    DocumentRoot /var/www/celebi.labz0.org
+    DirectoryIndex index.html
+
+    <Directory /var/www/celebi.labz0.org>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    # Static assets: long cache
+    <FilesMatch "\.(css|js|png|svg|ico|woff2?)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+
+    ErrorLog ${APACHE_LOG_DIR}/celebi_error.log
+    CustomLog ${APACHE_LOG_DIR}/celebi_access.log combined
+</VirtualHost>

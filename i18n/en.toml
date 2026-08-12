@@ -1,0 +1,87 @@
+[nav_features]
+other = "Features"
+[nav_concepts]
+other = "Concepts"
+[nav_ecosystem]
+other = "Ecosystem"
+[nav_getstarted]
+other = "Get Started"
+[nav_news]
+other = "News"
+[nav_roadmap]
+other = "Roadmap"
+[nav_examples]
+other = "Examples"
+[nav_guide]
+other = "Guide"
+[nav_docs]
+other = "Docs"
+
+[section_features]
+other = "Features"
+[section_examples]
+other = "Examples"
+[section_examples_sub]
+other = "Example analyses built with Celebi — more coming soon."
+
+[hero_getstarted]
+other = "Get started"
+[hero_github]
+other = "View on GitHub"
+
+[section_concepts]
+other = "Core concepts"
+[section_concepts_sub]
+other = "A small vocabulary that keeps large analyses organized."
+[section_ecosystem]
+other = "The Celebi ecosystem"
+[section_ecosystem_sub]
+other = "One project model, many ways to work with it."
+[section_getstarted]
+other = "Get started in minutes"
+[section_news]
+other = "Latest news"
+[section_news_roadmap]
+other = "News & Roadmap"
+[col_general]
+other = "General"
+[col_releases]
+other = "Releases"
+[badge_talk]
+other = "Talk"
+[badge_news]
+other = "News"
+[releases_all]
+other = "All releases"
+[section_roadmap]
+other = "Roadmap"
+[section_roadmap_sub]
+other = "Where Celebi is heading."
+
+[roadmap_current]
+other = "Current"
+[roadmap_near]
+other = "Near-term"
+[roadmap_future]
+other = "Future"
+
+[news_readmore]
+other = "Read more"
+[news_all]
+other = "All news"
+[news_published]
+other = "Published"
+
+[footer_contact]
+other = "Keep in touch"
+[footer_resources]
+other = "Resources"
+[footer_ecosystem]
+other = "Ecosystem"
+[footer_builtwith]
+other = "Built with Hugo. Icons are inline SVG."
+[footer_rights]
+other = "All rights reserved."
+
+[skip_to_content]
+other = "Skip to content"

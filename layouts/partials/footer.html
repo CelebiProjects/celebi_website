@@ -1,0 +1,37 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="{{ .Site.Home.RelPermalink }}">
+        <img src="{{ "images/logo.png" | relURL }}" alt="Celebi logo" width="28" height="28">
+        <span>Celebi</span>
+      </a>
+      <p>{{ .Site.Params.tagline }}</p>
+      <p class="license"><a href="{{ .Site.Params.licenseURL }}" target="_blank" rel="noopener">{{ .Site.Params.license }}</a></p>
+    </div>
+    <div class="footer-col">
+      <h3>{{ T "footer_resources" }}</h3>
+      <a href="{{ .Site.Params.docs }}" target="_blank" rel="noopener">{{ T "nav_docs" }} ↗</a>
+      <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="{{ .Site.Params.deepwiki }}" target="_blank" rel="noopener">DeepWiki ↗</a>
+      <a href="{{ "guide/" | relLangURL }}">{{ T "nav_guide" }}</a>
+      <a href="{{ "concepts/" | relLangURL }}">{{ T "nav_concepts" }}</a>
+      <a href="{{ "news/" | relLangURL }}">{{ T "nav_news" }}</a>
+    </div>
+    <div class="footer-col">
+      <h3>{{ T "footer_ecosystem" }}</h3>
+      <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">Celebi Core ↗</a>
+      <a href="{{ .Site.Params.githubOrg }}" target="_blank" rel="noopener">VS Code Extension ↗</a>
+      <a href="{{ .Site.Params.githubOrg }}" target="_blank" rel="noopener">Desktop UI ↗</a>
+      <a href="{{ .Site.Params.githubOrg }}/celebi-skills" target="_blank" rel="noopener">Claude Code Skills ↗</a>
+    </div>
+    <div class="footer-col">
+      <h3>{{ T "footer_contact" }}</h3>
+      <a href="{{ .Site.Params.github }}/issues" target="_blank" rel="noopener">Issues ↗</a>
+      <a href="{{ .Site.Params.github }}/discussions" target="_blank" rel="noopener">Discussions ↗</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {{ now.Format "2006" }} {{ .Site.Params.author }} · {{ T "footer_rights" }}</p>
+    <p class="muted">{{ T "footer_builtwith" }}</p>
+  </div>
+</footer>

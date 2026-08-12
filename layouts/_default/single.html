@@ -1,0 +1,10 @@
+{{ define "main" }}
+<article class="section page-head">
+  <div class="container narrow prose">
+    <p class="muted"><a href="{{ .Site.Home.RelPermalink }}">Celebi</a>{{ with .Parent }} / <a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ if not .Date.IsZero }}<p class="muted"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ T "news_published" }} {{ .Date.Format "2006-01-02" }}</time></p>{{ end }}
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

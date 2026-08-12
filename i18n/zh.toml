@@ -1,0 +1,87 @@
+[nav_features]
+other = "特性"
+[nav_concepts]
+other = "核心概念"
+[nav_ecosystem]
+other = "生态系统"
+[nav_getstarted]
+other = "快速上手"
+[nav_news]
+other = "动态"
+[nav_roadmap]
+other = "路线图"
+[nav_examples]
+other = "示例"
+[nav_guide]
+other = "指南"
+[nav_docs]
+other = "文档"
+
+[section_features]
+other = "特性"
+[section_examples]
+other = "示例分析"
+[section_examples_sub]
+other = "用 Celebi 构建的示例分析 —— 更多内容即将上线。"
+
+[hero_getstarted]
+other = "快速上手"
+[hero_github]
+other = "GitHub 仓库"
+
+[section_concepts]
+other = "核心概念"
+[section_concepts_sub]
+other = "用少量概念,管理大型分析流程。"
+[section_ecosystem]
+other = "Celebi 生态系统"
+[section_ecosystem_sub]
+other = "同一套项目模型,多种工作方式。"
+[section_getstarted]
+other = "几分钟内上手"
+[section_news]
+other = "最新动态"
+[section_news_roadmap]
+other = "动态与路线"
+[col_general]
+other = "综合动态"
+[col_releases]
+other = "版本更新"
+[badge_talk]
+other = "报告"
+[badge_news]
+other = "动态"
+[releases_all]
+other = "全部版本"
+[section_roadmap]
+other = "开发路线图"
+[section_roadmap_sub]
+other = "Celebi 的发展方向。"
+
+[roadmap_current]
+other = "当前"
+[roadmap_near]
+other = "近期"
+[roadmap_future]
+other = "远期"
+
+[news_readmore]
+other = "阅读全文"
+[news_all]
+other = "全部动态"
+[news_published]
+other = "发布于"
+
+[footer_contact]
+other = "联系方式"
+[footer_resources]
+other = "资源"
+[footer_ecosystem]
+other = "生态组件"
+[footer_builtwith]
+other = "使用 Hugo 构建,图标为内联 SVG。"
+[footer_rights]
+other = "保留所有权利。"
+
+[skip_to_content]
+other = "跳到主要内容"

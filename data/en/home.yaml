@@ -1,0 +1,54 @@
+hero:
+  badge: "Open source · Apache-2.0"
+  title: "Celebi"
+  tagline: "Reproducible analysis management for high-energy physics"
+  subtitle: "Celebi organizes projects, data, algorithms, and tasks into a structured workspace — with dependency tracking, provenance, and snapshotting built in — so complex HEP analysis chains stay reproducible, traceable, and collaborative."
+features:
+  - icon: hierarchy
+    title: "Structured organization"
+    text: "Clear separation of projects, data, algorithms, and tasks within a well-defined hierarchy."
+  - icon: dag
+    title: "Dependency tracking"
+    text: "Relationships between data, algorithms, and tasks form a directed acyclic graph you can inspect and replay."
+  - icon: snapshot
+    title: "Impressions"
+    text: "Snapshot important results, configurations, and object states over time — a built-in versioning memory."
+  - icon: reproduce
+    title: "Reproducibility"
+    text: "Workflow structure, parameters, inputs, and execution environments are captured completely."
+  - icon: adapt
+    title: "Adaptability"
+    text: "Change an algorithm or a parameter and re-run only the affected downstream tasks."
+  - icon: collaborate
+    title: "Collaboration"
+    text: "Share projects and workflows consistently across people, machines, and environments."
+
+concepts: []
+
+examples:
+  - name: "Hello world workflow"
+    kind: "Beginner"
+    text: "A minimal two-task chain: create an algorithm, wire a task, submit, and seal your first impression."
+  - name: "Template fitting"
+    kind: "Intermediate"
+    text: "A template-fit analysis with upstream selection tasks — demonstrates dependency tracking and selective re-running."
+  - name: "Systematics scan"
+    kind: "Advanced"
+    text: "One algorithm, many parameter variations — shows how tasks fan out and how impressions capture each state."
+
+roadmap:
+  current:
+    - "CelebiChrono core: projects, tasks, algorithms, data, impressions"
+    - "CLI with project-root @/ path support and tab completion"
+    - "VS Code extension: tree view, submit, trace visualization"
+    - "Desktop UI: DAG viewer, runner management, integrated terminal"
+    - "Claude Code skills for AI-assisted workflows"
+  near:
+    - "PyPI packaging and streamlined installation"
+    - "Batch and remote runners (HTCondor, Slurm)"
+    - "Expanded documentation and tutorials"
+    - "Web-based monitoring dashboard"
+  future:
+    - "Collaborative project registry and sharing hub"
+    - "Cloud execution backends"
+    - "Experiment-specific integrations and templates"

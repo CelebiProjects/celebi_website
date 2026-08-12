@@ -1,0 +1,54 @@
+hero:
+  badge: "开源 · Apache-2.0"
+  title: "Celebi"
+  tagline: "面向高能物理的可复现分析管理系统"
+  subtitle: "Celebi 将项目、数据、算法与任务组织成结构化的工作区,内置依赖追踪、来源记录与快照能力,让复杂的高能物理分析链条保持可复现、可追溯、可协作。"
+features:
+  - icon: hierarchy
+    title: "结构化组织"
+    text: "项目、数据、算法与任务清晰分离,层次结构定义明确。"
+  - icon: dag
+    title: "依赖追踪"
+    text: "数据、算法与任务之间的关系自动构成有向无环图(DAG),可查看、可重放。"
+  - icon: snapshot
+    title: "Impression 快照"
+    text: "随时间记录重要结果、配置与对象状态 —— 内置的版本记忆。"
+  - icon: reproduce
+    title: "可复现性"
+    text: "完整捕获工作流结构、参数、输入与执行环境。"
+  - icon: adapt
+    title: "灵活适应"
+    text: "修改算法或参数后,只重新运行受影响的下游任务。"
+  - icon: collaborate
+    title: "协作共享"
+    text: "跨人员、跨机器、跨环境一致地共享项目与工作流。"
+
+concepts: []
+
+examples:
+  - name: "Hello world 工作流"
+    kind: "入门"
+    text: "最小的两任务链条:创建算法、连接任务、提交运行,并封存你的第一个 impression。"
+  - name: "模板拟合"
+    kind: "进阶"
+    text: "带上游选择任务的模板拟合分析 —— 演示依赖追踪与选择性重跑。"
+  - name: "系统误差扫描"
+    kind: "高级"
+    text: "一个算法、多组参数变体 —— 展示任务如何展开,以及 impression 如何记录每个状态。"
+
+roadmap:
+  current:
+    - "CelebiChrono 核心:项目、任务、算法、数据、impression"
+    - "CLI 支持项目根目录 @/ 路径与 Tab 补全"
+    - "VS Code 插件:项目树、任务提交、trace 可视化"
+    - "桌面 UI:DAG 查看器、runner 管理、内置终端"
+    - "面向 AI 辅助工作流的 Claude Code skills"
+  near:
+    - "PyPI 打包发布,简化安装流程"
+    - "批处理与远程 runner(HTCondor、Slurm)"
+    - "完善文档与教程"
+    - "Web 监控面板"
+  future:
+    - "协作项目注册与共享中心"
+    - "云端执行后端"
+    - "面向具体实验的集成与模板"
