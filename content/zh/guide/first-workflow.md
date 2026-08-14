@@ -4,83 +4,178 @@ weight: 1
 summary: "用高斯分布产生样本并拟合 —— 完整的 Gen → Fit 示例。"
 ---
 
-本指南演示 Celebi 的经典示例:**用高斯分布产生一些样本并拟合它**(另见
+本指南演示 Celebi 的经典示例:**用高斯分布产生一些样本并拟合它们**(另见
 [demo-basic-01](https://celebi.readthedocs.io/en/latest/examples/demo-basic-01.html))。
 
-## 0. 开始一个项目
+## 1. 克隆仓库
 
 ```sh
-celebi init .            # 在空目录中
-celebi use .             # 在已有的 Celebi 项目目录中
-celebi                   # 进入 Celebi shell
-celebi projects          # 列出项目;celebi workon [name]  切换项目
+git clone https://github.com/CelebiProjects/demo-basic-01.git
+cd demo-basic-01
 ```
 
-## 1. 构建工作流
+这条命令从 GitHub 下载一个已有的 Celebi 仓库。你可以把它克隆到任何想存放 Celebi
+项目的位置。
 
-每个工作流节点都是磁盘上的一个文件夹。创建两个算法和两个任务,然后把它们连起来:
+## 2. Celebi 环境
 
-```text
-create-algorithm AlgGen
-create-algorithm AlgFit
-create-task Gen
-create-task Fit
-
-cd @/Gen    add-algorithm ../AlgGen
-cd @/Fit    add-algorithm ../AlgFit
-cd @/Fit    add-input ../Gen gen
+```sh
+cd demo-basic-01 # (如果还没有进入该目录)
+celebi use .
 ```
 
-`add-input ../Gen gen` 让 Gen 任务在 Fit 内部以名为 `gen` 的子文件夹可见 ——
-这就是[别名系统](/zh/concepts/repository/)的工作方式。
+`celebi use .` 把 `demo-basic-01` 项目注册到 Celebi 中。注册之后,这个项目就成为
+Celebi 系统管理的项目之一。
 
-## 2. 写代码并配置
+你可以运行:
 
-在**算法**中,写下带参数占位符的命令模板:
+```sh
+celebi projects
+```
+
+查看 Celebi 当前管理的所有项目。
+
+你也可以用:
+
+```sh
+celebi workon [project_name]
+```
+
+切换当前的工作项目。
+
+用 `celebi workon` 选好项目后,`celebi` 命令都会在 Celebi 环境与当前所选项目中
+运行。
+
+## 3. 理解目录结构
+
+进入 celebi 后输入 `ls`,你会看到这个仓库的结构,类似:
+
+```bash
+>>>> ls
+>>>> DITE: [connected]
+README:
+(readme contents ... )
+>>>> Subobjects:
+[0] (algorithm)   Fit
+[1] (algorithm)   Gen
+[2] (task)        FitTask
+[3] (task)        GenTask
+```
+
+磁盘上的目录结构如下:
+
+```bash
+.
+├── .celebi
+│   ├── config.json
+│   └── project.json
+├── Fit
+│   ├── .celebi
+│   │   └── config.json
+│   ├── celebi.yaml
+│   ├── fitdata.C
+│   └── README.md
+├── FitTask
+│   ├── .celebi
+│   │   └── config.json
+│   ├── celebi.yaml
+│   └── README.md
+├── Gen
+│   ├── .celebi
+│   │   └── config.json
+│   ├── celebi.yaml
+│   ├── gendata.C
+│   └── README.md
+├── GenTask
+│   ├── .celebi
+│   │   └── config.json
+│   ├── celebi.yaml
+│   └── README.md
+└── README.md
+```
+
+我们先来解释 `tasks` 和 `algorithms`。打开 `Gen/gendata.C`,你会看到一个 ROOT
+脚本,简化后如下:
+
+```cpp
+#ifndef __CINT__
+(some include ... )
+#include "RooPlot.h"
+using namespace RooFit ;
+
+void gendata(int numevents, const char* outfilename)
+{
+  (some logic ... )
+  RooDataSet *data = model.generate(x, numevents) ;
+  (some logic ... )
+  w->writeToFile(outfilename) ;
+  // Workspace will remain in memory after macro finishes
+  gDirectory->Add(w) ;
+}
+```
+
+这就是你稍后要运行的代码。可以看到,这个脚本接受两个参数:`numevents` 和
+`outfilename`。稍后我们会看到这些参数是如何传给脚本的。
+
+打开 `Gen/celebi.yaml`,你会看到:
 
 ```yaml
-# AlgGen/celebi.yaml
 environment: script
 commands:
-  - root -l code/gen.C('${events}')
+  - root -b -q 'code/gendata.C(${events},"stageout/data.root")'
 ```
 
-用你习惯的编辑器写实际代码:
+这个配置包含两个字段:
 
-```text
-cd @/AlgGen
-edit-script gen.C
+* **`environment: script`**
+  它指定该算法是脚本型算法。脚本型算法与任务兼容,无论任务的执行环境是什么。
+  大多数情况下,用 `set-environment script` 把算法的环境设为 `script` 即可。
+
+* **`commands`**
+  它指定任务将要执行的命令。这里我们用一条 ROOT 命令执行 `gendata.C`。
+
+  注意脚本写的是 `code/gendata.C` 而不是 `gendata.C`。这是因为在任务内部,算法
+  的文件被放在 `code` 目录下。稍后我们会更详细地解释这个结构。
+
+  你还会在命令里看到 `${events}`。这是由任务提供、在命令执行时替换的参数。稍后
+  我们会解释参数是如何传给任务的。
+
+接下来看任务 `GenTask`。打开 `GenTask/celebi.yaml`,你会看到:
+
+```yaml
+alias: []
+environment: rootproject/root:6.32.02-ubuntu22.04
+memory_limit: 256Mi
+parameters:
+  events: '20000'
 ```
 
-在**任务**中,设置环境与参数:
+这里有四个字段:
 
-```text
-cd @/Gen
-set-environment env:root6
-add-parameters events 1000
-```
+* **`environment`**
+  这里指定的环境是 `rootproject/root:6.32.02-ubuntu22.04`。这是 ROOT 团队维护、
+  发布在 Docker Hub 上的 Docker 镜像:[https://hub.docker.com/r/rootproject/root](https://hub.docker.com/r/rootproject/root)。
 
-运行时,模板会被翻译成 `root -l code/gen.C('1000')`。
+* **`parameters`**
+  `parameters` 段定义了该任务使用的参数,例如:
 
-## 3. 交互式开发
+  ```yaml
+  events: '20000'
+  ```
 
-导航到某个任务,运行:
+  这个参数对应算法 `commands` 字段里的 `${events}`。任务执行时,Celebi 使用算法
+  定义的命令,并把 `${events}` 替换成这里提供的值,把参数传给命令。
 
-```text
-workaround
-```
+* **`memory_limit`**
+  它指定任务申请的内存量。
 
-你会进入一个新建文件夹中的 shell:任务的算法被复制到 `code/`,依赖以别名的形式
-复制进来 —— 它模拟真实的运行环境,因此你可以精确调试将要执行的内容。
+* **`alias`**
+  它给任务定义一个人类可读的别名,方便识别或引用任务。
 
-## 4. 提交运行
+通常用户不需要阅读或修改隐藏文件,例如 `.celebi/*`。这些文件由 Celebi 系统自动
+管理。不过了解它们的用途仍然有帮助,所以我们在这里简单说明一下。
 
-```text
-cd @/Fit
-submit                 # 或:submit [runner_name]
-```
-
-[runner](/zh/concepts/runner/) 会解析依赖,先运行 Gen、再运行 Fit,输出经由
+[runner](/zh/concepts/runner/) 解析依赖,先运行 Gen,再运行 Fit,输出经由
 [Yuki](/zh/concepts/yuki/) 取回。在某个目录中执行 `submit`,等于在它所有子节点中
 执行 —— 一个动作提交整个工作流。
 
