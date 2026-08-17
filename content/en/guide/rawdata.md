@@ -24,7 +24,7 @@ currently lives:
 | a file on your machine that belongs to one task | `create-data` + `import` |
 | a directory on your machine | `upload-data` |
 | an impression already on DITE | `attach-data` |
-| a directory on an SSH runner | `register-data` |
+| a directory on an SSH runner | `register-ssh-data` |
 
 ## 1. `create-data` + `import` — files inside a task
 
@@ -64,25 +64,40 @@ UUID is filled from the server's metadata.
 If you run it inside an existing raw-data task, that task's UUID/descriptor
 are updated instead of creating a new task.
 
-## 4. `register-data` — data already on an SSH runner
+## 4. `register-ssh-data` — data already on an SSH runner
 
 When the data already sits on a compute farm, do not pull it to your laptop
-and upload it again. `register-data` computes the MD5 **on the runner** and
-copies the data into Yuki's managed impressions area **on that runner** —
-the data never crosses your network.
+and upload it again. `register-ssh-data` computes the MD5 **on the runner**
+and copies the data into Yuki's managed impressions area **on that runner**
+— the data never crosses your network. The command shows a live byte
+progress bar for the hash and **returns as soon as the hash is computed**;
+the copy continues as a background job on Yuki.
 
 ```text
->>>> register-data pkufarm212 /home/user/workdir/TestData --descriptor MyData
-register-data: job 37013596... started on 'pkufarm212'
-register-data: hashing...
-register-data: copying...
-Registered: md5=779f83aa862dd6fb4a32989718d70bdd impression=17d47e297f50cbeed12b821fde672ea9
-Updated rawdata task at MyData (register-data) with new impression data
+>>>> register-ssh-data pkufarm212 /home/user/workdir/TestData --descriptor MyData
+register-ssh-data: job 37013596... started on 'pkufarm212'
+register-ssh-data: hashing  4.2G/4.2G [██████████] 100% 00:25
+Registered: md5=779f83aa862dd6fb4a32989718d70bdd impression=17d47e297f50cbeed12b821fde672ea9 — copying in background
+Updated rawdata task at MyData (register-ssh-data) with new impression data
 ```
 
-The registration runs as a background job on Yuki (hashing → copying →
-registering). Re-registering the same path is idempotent: the existing
-registration is returned instantly. The data task's default runner is set
+Registration has two phases: the hash (MD5 + impression synthesis) runs
+while the command waits, then the copy is dispatched as a separate
+background task (hashing → copying → done). Check the copy's progress with
+`status`:
+
+```text
+>>>> status
+...
+Data registration: copying — 1.2GiB/4.2GiB
+```
+
+Once the copy finishes (or fails), `status` shows
+`Data registration: archived` or `failed — <error>`. Re-registering the
+same path **always re-hashes**: if the content is unchanged the existing
+registration is reused (the command returns right after the hash); if it
+changed, a new impression is created and the managed copy refreshed.
+The data task's default runner is set
 to the runner that hosts the data.
 
 ## 5. Using data downstream
@@ -103,7 +118,7 @@ How the data reaches the workflow depends on the runner:
   `[remote-workdir]/impressions/<project>/<impression>/`; every later
   workflow on the same runner copies it locally, with no network transfer.
 - **REANA runner**: with `cache_on_runner` on, data flows through EOS.
-- Data registered with `register-data` is bound to its runner: submitting
+- Data registered with `register-ssh-data` is bound to its runner: submitting
   a workflow that needs it to a different runner is rejected with a clear
   error (moving such data via `collect` is planned).
 

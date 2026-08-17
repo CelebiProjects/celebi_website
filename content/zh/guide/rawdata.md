@@ -22,7 +22,7 @@ descriptor: MyData
 | 本机上属于某个任务的文件 | `create-data` + `import` |
 | 本机上的一个目录 | `upload-data` |
 | DITE 上已有的印象 | `attach-data` |
-| SSH runner 上的一个目录 | `register-data` |
+| SSH runner 上的一个目录 | `register-ssh-data` |
 
 ## 1. `create-data` + `import` —— 任务内的文件
 
@@ -58,24 +58,34 @@ The md5 of the dir is: 779f83aa862dd6fb4a32989718d70bdd
 如果你在已有的原始数据任务里运行它,该任务的 UUID/descriptor 会被更新而不是
 新建任务。
 
-## 4. `register-data` —— 数据已经在 SSH runner 上
+## 4. `register-ssh-data` —— 数据已经在 SSH runner 上
 
-当数据已经躺在计算农场上时,不要把它拉到笔记本再上传。`register-data`
+当数据已经躺在计算农场上时,不要把它拉到笔记本再上传。`register-ssh-data`
 **在 runner 上**计算 MD5,并把数据拷贝到 Yuki 在**该 runner 上**的受管
-impressions 区域 —— 数据完全不经过你的网络。
+impressions 区域 —— 数据完全不经过你的网络。命令显示哈希进度的实时字节
+进度条,**哈希计算完成即返回**;拷贝作为后台任务在 Yuki 上继续执行。
 
 ```text
->>>> register-data pkufarm212 /home/user/workdir/TestData --descriptor MyData
-register-data: job 37013596... started on 'pkufarm212'
-register-data: hashing...
-register-data: copying...
-Registered: md5=779f83aa862dd6fb4a32989718d70bdd impression=17d47e297f50cbeed12b821fde672ea9
-Updated rawdata task at MyData (register-data) with new impression data
+>>>> register-ssh-data pkufarm212 /home/user/workdir/TestData --descriptor MyData
+register-ssh-data: job 37013596... started on 'pkufarm212'
+register-ssh-data: hashing  4.2G/4.2G [██████████] 100% 00:25
+Registered: md5=779f83aa862dd6fb4a32989718d70bdd impression=17d47e297f50cbeed12b821fde672ea9 — copying in background
+Updated rawdata task at MyData (register-ssh-data) with new impression data
 ```
 
-登记在 Yuki 上作为后台任务运行(hashing → copying → registering)。重复登记同一
-路径是幂等的:直接返回已有的登记。数据任务的默认 runner 会被设为托管数据的那个
-runner。
+登记分为两个阶段:哈希(MD5 + 生成印象)由命令等待完成;拷贝作为独立的
+后台任务运行(hashing → copying → done)。用 `status` 查看拷贝进度:
+
+```text
+>>>> status
+...
+Data registration: copying — 1.2GiB/4.2GiB
+```
+
+拷贝完成(或失败)后 `status` 分别显示 `Data registration: archived` 或
+`failed — <错误信息>`。重复登记同一路径时**总是重新计算哈希**:内容未变则
+直接复用已有登记(哈希完成后立即返回);内容变了则生成新的印象,并重新
+拷贝托管区。数据任务的默认 runner 会被设为托管数据的那个 runner。
 
 ## 5. 下游使用数据
 
@@ -94,7 +104,7 @@ runner。
   `[remote-workdir]/impressions/<project>/<impression>/`;之后同一 runner 上的
   每个工作流都是本地拷贝,零网络传输。
 - **REANA runner**:开启 `cache_on_runner` 后,数据经由 EOS 流转。
-- `register-data` 登记的数据绑定在其 runner 上:把需要它的工作流提交到其他
+- `register-ssh-data` 登记的数据绑定在其 runner 上:把需要它的工作流提交到其他
   runner 会被明确报错拒绝(通过 `collect` 搬运这类数据已在计划中)。
 
 ## 6. `cache_on_runner` —— 结果缓存在哪里
