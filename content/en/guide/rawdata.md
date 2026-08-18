@@ -140,10 +140,10 @@ Add the corresponding algorithm and input data:
 ```text
 >>>> cd filter0_task
 >>>> add-algorithm ../filter0
->>>> add-input ../TestData Raw_Data
+>>>> add-input ../TestData raw_data
 ```
 
-The name of the input data ("Raw_Data" here) is arbitrary since different
+The name of the input data ("raw_data" here) is arbitrary since different
 data can be added to the same task. After we run the workflow, the algorithm, 
 data and task will be stored as 'impression' in different folders in the 
 repository. Impression of the algorithm only contains the python file. Impression
@@ -152,16 +152,75 @@ However, impression of the task contains:
 
 1. code folder: contains all the programs.
 2. logs folder: contains the logs of execution.
-3. data folder: Its name is what you name the input data (Raw_Data here) and contains the input data.
+3. data folder: Its name is what you name the input data (raw_data here) and it is the same as the impression of the raw data.
 4. stageout folder: contains output files.
 
-Add the data task as an input of an analysis task and submit:
+Therefore, the task can run the program in the code folder (That's why we write code/filter0.py before) and use the data in raw_data/stageout. 
+When we write the program, make sure the input folder is **raw_data/stageout**, and the output folder is **stageout**.
+
+We can use **ls** to see the workflow we just built in the task folder:
 
 ```text
->>>> cd @/FitTask
->>>> add-input ../MyData
->>>> submit pkufarm212
+>>>> ls
+>>>> DITE: [connected]
+README: 
+Please write README for task filter0_task
+o--> Predecessors:
+[0] (algorithm)  code    : @/filter0
+[1] (task)       raw_data: @/TestData
+Environment: env_root_6.38.04
+Memory limit: 256Mi
+Validated: True
+Cache on runner: True
+Default runner: pkufarm212
+---- Algorithm files:
+code:filter0.py    
+---- Commands:
+python3 code/filter0.py
 ```
+To set the appropriate environment, see what environment you have on the server:
+
+```text
+>>>> runner-envs pkufarm212
+Conda environments on 'pkufarm212' (3):
+  base                          /home/zouqt/miniconda3
+  env_root_6.38.04              /home/zouqt/miniconda3/envs/env_root_6.38.04
+  snakemake                     /home/zouqt/miniconda3/envs/snakemake
+```
+
+Then copy 'env_root_6.38.04' to the yaml file of the task.
+If "Cache on runner" is False, run:
+
+```text
+>>>> cache-on-runner on
+```
+
+If there's no runner, run:
+```text
+>>>> request-runner pkufarm212
+```
+
+Finally, when everything's ready, run:
+```text
+>>>> submit --runner pkufarm212
+```
+
+and the task is run by the server. Use "Status" to see the status:
+
+```text
+>>>> status
+Status of : filter0_task
+Impression: [ec21fbb7ef0ec6888175eae7302b55d5]
+DITE: [connected]
+Job status: [in movement][running]
+Details: Executing workflow steps
+**** Workflow: 
+Workflow: [pkufarm212][84b43f1adf8c4b80bdc1f3af043b7411]
+Stageout files:
+    (nothing to show yet — run 'collect', or the runner may be unreachable)
+```
+
+
 
 How the data reaches the workflow depends on the runner:
 
