@@ -62,7 +62,7 @@ Add the corresponding algorithm and input data:
 ```celebi
 >>>> cd filter0_task
 >>>> add-algorithm ../filter0
->>>> add-input ../TestData raw_data
+>>>> add-input ../Raw raw_data
 ```
 
 The name of the input data ("raw_data" here) is arbitrary since different
@@ -171,7 +171,7 @@ Stageout files:
 ```
 ### Visualize the Workflow
 Run the following command to generate a sketch of the workflow:
-```celebi
+```WSL
 >>>> draw-dag-graphviz
 ```
 [dag.pdf](https://github.com/user-attachments/files/31177657/dag.pdf)
