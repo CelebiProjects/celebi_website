@@ -1,5 +1,5 @@
 ---
-title: "Working with raw data"
+title: "Start a workflow with raw data"
 weight: 2
 summary: "Bring data into Celebi — locally, from DITE, or straight from an SSH runner — and manage it by MD5."
 ---
@@ -23,6 +23,7 @@ In the beginning, make a new folder that will contain our project.
 ```
 Then this new folder becomes our analysis project.
 
+## 1. Bring in the data
 There are four ways to bring data into a project. Choose by where the data
 currently lives:
 
@@ -33,7 +34,7 @@ currently lives:
 | an impression already on DITE | `attach-data` |
 | a directory on an SSH runner | `create-data ` + `register-ssh-data` |
 
-## 1. `create-data` + `import` — files inside a task
+### 1. `create-data` + `import` — files inside a task
 
 `create-data` makes an empty raw-data task; `import` copies local files into
 it. The files travel with the task when it is submitted, so this is for small
@@ -45,7 +46,7 @@ per-task files (configurations, small tables), not for large datasets.
 >>>> import /path/to/file.txt
 ```
 
-## 2. `upload-data` — local directory to DITE
+### 2. `upload-data` — local directory to DITE
 
 `upload-data` (previously `send`) uploads a local directory to the DITE
 server with a progress bar. The MD5 is computed, the data is stored in Yuki
@@ -57,7 +58,7 @@ a pointer to it.
 The md5 of the dir is: 779f83aa862dd6fb4a32989718d70bdd
 ```
 
-## 3. `attach-data` — adopt an impression already on DITE
+### 3. `attach-data` — adopt an impression already on DITE
 
 `attach-data` (previously `use-data`) turns an impression that already lives
 on DITE — created by another project or by `yuki-create-data` — into a local
@@ -71,7 +72,7 @@ UUID is filled from the server's metadata.
 If you run it inside an existing raw-data task, that task's UUID/descriptor
 are updated instead of creating a new task.
 
-## 4. `register-ssh-data` — data already on an SSH runner
+### 4. `register-ssh-data` — data already on an SSH runner
 
 When the data already sits on a compute farm, do not pull it to your laptop
 and upload it again. `register-ssh-data` computes the MD5 **on the runner**
@@ -109,7 +110,7 @@ changed, a new impression is created and the managed copy refreshed.
 The data task's default runner is set
 to the runner that hosts the data.
 
-## 5. Using data downstream
+## 2. Connect Data, Algorithm and Task
 
 We need an algorithm and a corresponding task to process the data. First,
 create a new algorithm in the project file:
@@ -158,7 +159,7 @@ However, impression of the task contains:
 Therefore, the task can run the program in the code folder (That's why we write code/filter0.py before) and use the data in raw_data/stageout. 
 When we write the program, make sure the input folder is **raw_data/stageout**, and the output folder is **stageout**.
 
-We can use **ls** to see the workflow we just built in the task folder:
+We can use **ls** in the task folder to see the workflow we just built:
 
 ```text
 >>>> ls
@@ -178,6 +179,8 @@ code:filter0.py
 ---- Commands:
 python3 code/filter0.py
 ```
+
+## 3. Run the Workflow
 To set the appropriate environment, see what environment you have on the server:
 
 ```text
@@ -220,8 +223,9 @@ Stageout files:
     (nothing to show yet — run 'collect', or the runner may be unreachable)
 ```
 
+## Appendix
 
-
+### 1.
 How the data reaches the workflow depends on the runner:
 
 - **SSH runner**: the data is staged from the runner's local impressions
@@ -234,7 +238,7 @@ How the data reaches the workflow depends on the runner:
   a workflow that needs it to a different runner is rejected with a clear
   error (moving such data via `collect` is planned).
 
-## 6. `cache_on_runner` — where results are cached
+### 2. `cache_on_runner` — where results are cached
 
 Every task has a `cache_on_runner` option (in the shell: `cache_on_runner on|off`).
 Its effect depends on the runner type:
@@ -245,7 +249,7 @@ Its effect depends on the runner type:
 | SSH | results are copied to the runner's managed impressions area |
 | native / dry | no effect (outputs already land in Yuki storage) |
 
-## 7. `verify-data` — check the data integrity
+### 3. `verify-data` — check the data integrity
 
 `verify-data` recomputes the MD5 and compares it with the registered UUID.
 For data hosted on an SSH runner the MD5 is recomputed on the runner; for
@@ -258,7 +262,7 @@ Data verified: md5 matches (779f83aa862dd6fb4a32989718d70bdd) on runner pkufarm2
 
 A mismatch means the data changed on disk and is reported with both values.
 
-## 8. Status and visibility
+### 4. Status and visibility
 
 A data task's status reflects the lifecycle of its registration: `running`
 while the copy is in flight, `archived` once it has settled. The `status`
@@ -273,7 +277,7 @@ Stageout files:
     111.txt                           5 B  data   ✗
 ```
 
-## 9. Working with SSH runners
+### 5. Working with SSH runners
 
 Two commands help you inspect an SSH runner before using it:
 
