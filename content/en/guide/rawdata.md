@@ -15,6 +15,13 @@ environment: rawdata
 uuid: 779f83aa862dd6fb4a32989718d70bdd
 descriptor: MyData
 ```
+In the beginning, make a new folder that will contain our project.
+```text
+>>>> mkdir . B02K3pi
+>>>> cd B02K3pi
+>>>> celebi init
+```
+Then this new folder becomes our analysis project.
 
 There are four ways to bring data into a project. Choose by where the data
 currently lives:
@@ -24,7 +31,7 @@ currently lives:
 | a file on your machine that belongs to one task | `create-data` + `import` |
 | a directory on your machine | `upload-data` |
 | an impression already on DITE | `attach-data` |
-| a directory on an SSH runner | `register-ssh-data` |
+| a directory on an SSH runner | `create-data ` + `register-ssh-data` |
 
 ## 1. `create-data` + `import` — files inside a task
 
@@ -74,6 +81,8 @@ progress bar for the hash and **returns as soon as the hash is computed**;
 the copy continues as a background job on Yuki.
 
 ```text
+>>>> create-data TestData
+>>>> cd TestData
 >>>> register-ssh-data pkufarm212 /home/user/workdir/TestData --descriptor MyData
 register-ssh-data: job 37013596... started on 'pkufarm212'
 register-ssh-data: hashing  4.2G/4.2G [██████████] 100% 00:25
@@ -101,6 +110,50 @@ The data task's default runner is set
 to the runner that hosts the data.
 
 ## 5. Using data downstream
+
+We need an algorithm and a corresponding task to process the data. First,
+create a new algorithm in the project file:
+
+```text
+>>>> create-algorithm filter0
+```
+
+Create a filter0.py program in filter0 and edit the yaml file in filter0:
+
+```yaml
+environment: script
+commands:
+  - python3 code/filter0.py
+```
+
+Notice that a '-' and a space should be in front of your command. We'll
+explain the 'code' later.
+
+Create a task that will execute the workflow in the project file:
+
+```text
+>>>> create-task filter0_task
+```
+
+Add the corresponding algorithm and input data:
+
+```text
+>>>> cd filter0_task
+>>>> add-algorithm ../filter0
+>>>> add-input ../TestData Raw_Data
+```
+
+The name of the input data ("Raw_Data" here) is arbitrary since different
+data can be added to the same task. After we run the workflow, the algorithm, 
+data and task will be stored as 'impression' in different folders in the 
+repository. Impression of the algorithm only contains the python file. Impression
+of the data contains the raw data (in stageout folder) and logs (empty, in logs folder). 
+However, impression of the task contains:
+
+1. code folder: contains all the programs.
+2. logs folder: contains the logs of execution.
+3. data folder: Its name is what you name the input data (Raw_Data here) and contains the input data.
+4. stageout folder: contains output files.
 
 Add the data task as an input of an analysis task and submit:
 
