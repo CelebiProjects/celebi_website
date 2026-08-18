@@ -1,4 +1,7 @@
-# Starting an Analysis with Celebi
+---
+title: "Starting an analysis"
+summary: "Start an analysis using Celebi with data on the server and code on your local machine."
+---
 
 This file demonstrates how to start an analysis using Celebi. In this example, all data is stored on the server, but the code resides on our local computer.
 
