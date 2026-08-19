@@ -80,7 +80,7 @@ After running the workflow, the algorithm, data, and task will be stored as **im
    - `data/` folder — named after your input data (e.g., `raw_data`), linking to the data impression.
    - `stageout/` folder — contains output files.
 
-Therefore, the task can run the program in the `code/ folder` (hence `code/filter0.py` in the command) 
+Therefore, the task can run the program in the `code/` folder (hence `code/filter0.py` in the command) 
 and use data from `raw_data/stageout`. When writing the program, ensure:
 - The input folder is `raw_data/stageout`
 - The output folder is `stageout`
