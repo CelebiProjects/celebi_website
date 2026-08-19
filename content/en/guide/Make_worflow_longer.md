@@ -28,7 +28,7 @@ Now set up the input:
 add-input ../filter0_task/ data_filter0
 ```
 This means  `filter1_task` takes its input from the output of `filter0_task` and we name the input `data_filter0`. 
-Therefore, the input folder for `filter1.py` becomes `data_filter0` and the output folder is still `stageout`.
+**Therefore, the input folder for `filter1.py` becomes `data_filter0/stageout` and the output folder is still `stageout`.**
 Then configure the runner settings:
 ```celebi
 cache-on-runner on
