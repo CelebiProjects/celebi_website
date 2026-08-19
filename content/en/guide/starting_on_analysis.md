@@ -180,7 +180,8 @@ Run the following command to generate a sketch of the workflow:
 ```WSL
 >>>> draw-dag-graphviz
 ```
-[dag.pdf](https://github.com/user-attachments/files/31177657/dag.pdf)
+<img width="1265" height="782" alt="17dd2ab446ac3fe6053b6ccb08003bbe" src="https://github.com/user-attachments/assets/83c638bf-3ad9-4579-b015-5cfb2bcdb0da" />
+
 
 Note: If you don't have Graphviz installed, install it in WSL using:
 ```celebi
