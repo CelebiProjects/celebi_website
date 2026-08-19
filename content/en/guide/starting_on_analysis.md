@@ -19,7 +19,7 @@ to start our software. Type `Ctrl+D` when you want to exit.
 
 Create a new folder in your workdir to contain the project:
 ```celebi
->>>> mkdir . B02K3pi
+>>>> mkdir B02K3pi
 >>>> cd B02K3pi
 >>>> celebi init
 ```
@@ -80,7 +80,7 @@ After running the workflow, the algorithm, data, and task will be stored as **im
    - `data/` folder — named after your input data (e.g., `raw_data`), linking to the data impression.
    - `stageout/` folder — contains output files.
 
-Therefore, the task can run the program in the `code/ folder` (hence `code/filter0.py` in the command) 
+Therefore, the task can run the program in the `code/` folder (hence `code/filter0.py` in the command) 
 and use data from `raw_data/stageout`. When writing the program, ensure:
 - The input folder is `raw_data/stageout`
 - The output folder is `stageout`
@@ -139,12 +139,12 @@ Use the `status` command to monitor the job:
 ```celebi
 >>>> status
 Status of : filter0_task
-Impression: [ec21fbb7ef0ec6888175eae7302b55d5]
+Impression: [9017b6082037087e287fa89b76caca7b]
 DITE: [connected]
 Job status: [in movement][running]
 Details: Executing workflow steps
 **** Workflow: 
-Workflow: [pkufarm212][84b43f1adf8c4b80bdc1f3af043b7411]
+Workflow: [pkufarm212][494f0f6c61b34204b2e8910404c772e9]
 Stageout files:
     (nothing to show yet — run 'collect', or the runner may be unreachable)
 ```
@@ -169,12 +169,19 @@ Stageout files:
     25c4_down_cut0.root           328.7 MB  data   ✗
     25c4_up_cut0.root             442.7 MB  data   ✗
 ```
+
+To review the execution logs, navigate to the log file at:
+```text
+/home/zouqt/workdir/celebi_ssh_runner/workflows/5668ba0decc3482a897e8f4e0e8566ba/494f0f6c61b34204b2e8910404c772e9/imp9017b60/logs/celebi_user_step0.log
+```
+Note: The `imp9017b60` segment in the path represents the task impression, which is nested within the workflow impression `494f0f6c61b34204b2e8910404c772e9`.
 ### Visualize the Workflow
 Run the following command to generate a sketch of the workflow:
 ```WSL
 >>>> draw-dag-graphviz
 ```
-[dag.pdf](https://github.com/user-attachments/files/31177657/dag.pdf)
+<img width="1265" height="782" alt="17dd2ab446ac3fe6053b6ccb08003bbe" src="https://github.com/user-attachments/assets/83c638bf-3ad9-4579-b015-5cfb2bcdb0da" />
+
 
 Note: If you don't have Graphviz installed, install it in WSL using:
 ```celebi
