@@ -1,3 +1,8 @@
+---
+title: "Making Workflows Longer"
+weight: 2
+summary: "Extend your analysis pipeline by chaining multiple tasks — add a second filter and pass data between tasks."
+---
 This guide walks you through extending an existing CELEBI workflow by adding a new filter step (`filter1`) 
 and a merge step, creating a longer processing chain.
 
@@ -7,7 +12,7 @@ Start by creating a second filter algorithm (filter1) in our project folder:
 ```celebi
 create-algorithm filter1
 ```
-This creates a new algorithm directory. You will need to implement the filtering logic in filter1.py 
+This creates a new algorithm directory. You will need to implement the filtering logic in `filter1.py` 
 and the settings in `YAML` file (just like `filter0.py`).
 
 ## 2. Create and Configure the Filter1 Task
@@ -23,12 +28,13 @@ Now set up the input:
 add-input ../filter0_task/ data_filter0
 ```
 This means  `filter1_task` takes its input from the output of `filter0_task` and we name the input `data_filter0`. 
+Therefore, the input folder for `filter1.py` becomes `data_filter0` and the output folder is still `stageout`.
 Then configure the runner settings:
 ```celebi
 cache-on-runner on
 request-runner pkufarm212
 ```
-Verify the configuration with ls. You should see:
+Verify the configuration with `ls`. You should see:
 ```celebi
 o--> Predecessors:
 [0] (algorithm)  code        : @/filter1
