@@ -19,7 +19,7 @@ to start our software. Type `Ctrl+D` when you want to exit.
 
 Create a new folder in your workdir to contain the project:
 ```celebi
->>>> mkdir . B02K3pi
+>>>> mkdir B02K3pi
 >>>> cd B02K3pi
 >>>> celebi init
 ```
@@ -139,12 +139,12 @@ Use the `status` command to monitor the job:
 ```celebi
 >>>> status
 Status of : filter0_task
-Impression: [ec21fbb7ef0ec6888175eae7302b55d5]
+Impression: [9017b6082037087e287fa89b76caca7b]
 DITE: [connected]
 Job status: [in movement][running]
 Details: Executing workflow steps
 **** Workflow: 
-Workflow: [pkufarm212][84b43f1adf8c4b80bdc1f3af043b7411]
+Workflow: [pkufarm212][494f0f6c61b34204b2e8910404c772e9]
 Stageout files:
     (nothing to show yet — run 'collect', or the runner may be unreachable)
 ```
@@ -169,6 +169,12 @@ Stageout files:
     25c4_down_cut0.root           328.7 MB  data   ✗
     25c4_up_cut0.root             442.7 MB  data   ✗
 ```
+
+To review the execution logs, navigate to the log file at:
+```text
+/home/zouqt/workdir/celebi_ssh_runner/workflows/5668ba0decc3482a897e8f4e0e8566ba/494f0f6c61b34204b2e8910404c772e9/imp9017b60/logs/celebi_user_step0.log
+```
+Note: The `imp9017b60` segment in the path represents the task impression, which is nested within the workflow impression `494f0f6c61b34204b2e8910404c772e9`.
 ### Visualize the Workflow
 Run the following command to generate a sketch of the workflow:
 ```WSL
