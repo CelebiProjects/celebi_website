@@ -68,6 +68,11 @@ Add the corresponding algorithm and input data:
 The name of the input data ("raw_data" here) is arbitrary since different
 data can be added to the same task. 
 
+To remove the input data when you change your mind, use
+```celebi
+>>>> remove-input raw_data
+```
+Notice that you should use the new name of the input.
 ### Understanding Impressions
 
 After running the workflow, the algorithm, data, and task will be stored as **impressions** in different folders in the repository on the server:
@@ -170,18 +175,23 @@ Stageout files:
     25c4_up_cut0.root             442.7 MB  data   ✗
 ```
 
-To review the execution logs, navigate to the log file at:
+To see the output, go to:
 ```text
-/home/zouqt/workdir/celebi_ssh_runner/workflows/5668ba0decc3482a897e8f4e0e8566ba/494f0f6c61b34204b2e8910404c772e9/imp9017b60/logs/celebi_user_step0.log
+/home/zouqt/workdir/celebi_ssh_runner/workflows/5668ba0decc3482a897e8f4e0e8566ba/494f0f6c61b34204b2e8910404c772e9/imp9017b60/stageout
 ```
 Note: The `imp9017b60` segment in the path represents the task impression, which is nested within the workflow impression `494f0f6c61b34204b2e8910404c772e9`.
+
+You can use `log` to review the log and `log -f` to see the current output.
 ### Visualize the Workflow
 Run the following command to generate a sketch of the workflow:
-```WSL
+```celebi
 >>>> draw-dag-graphviz
 ```
 <img width="1265" height="782" alt="17dd2ab446ac3fe6053b6ccb08003bbe" src="https://github.com/user-attachments/assets/83c638bf-3ad9-4579-b015-5cfb2bcdb0da" />
-
+If you want to omit the corresponding algorithms, use
+```celebi
+draw-dag-graphviz -x -L
+```
 
 Note: If you don't have Graphviz installed, install it in WSL using:
 ```celebi
