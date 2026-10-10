@@ -167,7 +167,7 @@ Two commands help you inspect an SSH runner before using it:
 
 - `test-runner <runner>` — probes connectivity, snakemake, conda and the
   remote working directory, and stores the result (shown by `runners`).
-- `runner-envs <runner>` — lists the conda environments available on the
+- `runner-environments <runner>` — lists the conda environments available on the
   runner.
 
 See [Runner](/concepts/runner/) for registering and configuring runners

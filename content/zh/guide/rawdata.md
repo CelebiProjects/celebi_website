@@ -150,7 +150,7 @@ Stageout files:
 
 - `test-runner <runner>` —— 探测连通性、snakemake、conda 与远端工作目录,并把
   结果保存下来(由 `runners` 展示)。
-- `runner-envs <runner>` —— 列出 runner 上可用的 conda 环境。
+- `runner-environments <runner>` —— 列出 runner 上可用的 conda 环境。
 
 注册与配置 runner(包括 SSH 密钥,`register-runner` 会自动上传)见
 [Runner](/concepts/runner/)。

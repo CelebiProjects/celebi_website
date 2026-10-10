@@ -1,22 +1,39 @@
 ---
 title: "Command reference"
 weight: 3
-summary: "A categorized quick reference for every Celebi shell command: navigation, object creation, wiring and parameters, configuration, impressions, execution, DITE, runners, data, and files."
+summary: "A categorized quick reference for the Celebi shell, one-shot CLI, and Git commands."
 ---
 
-All commands below are used inside the interactive Celebi shell (enter with
-`celebi`). Command names are case-insensitive and arguments are space-separated.
-Square brackets `[ ]` mark optional arguments.
+Celebi has three entry points: `celebi` enters the persistent interactive shell,
+`celebi-cli COMMAND` runs one operation for scripts, and `celebi-git COMMAND`
+contains Git integration. The tables use the canonical command names shared by
+the shell and `celebi-cli` unless marked shell-only. Square brackets `[ ]` mark
+optional arguments.
+
+Inside `celebi`, bare `helpme` gives object-aware guidance. These three forms show
+the same detailed command documentation:
+
+```text
+help status
+helpme status
+status --help
+```
+
+Use `celebi-cli COMMAND --help` outside the shell. Compatibility spellings remain
+callable and are listed separately by `celebi-cli --help`.
 
 ## Projects & navigation
 
 | Command | Purpose and usage |
 |---|---|
-| `ls-projects` | List all registered projects |
-| `cd-project <name>` | Switch to a different project |
-| `navigate` | Print the path of the current project |
+| `list-projects` | List all registered projects |
+| `use-project <name>` | Select the project opened by the next `celebi` session |
+| `register-project <name> [path]` | Register an existing project |
+| `remove-project <name>` | Remove a registry entry without deleting project files |
+| `project-path` | Print the path of the current project |
 | `project-uuid` | Print the UUID of the current project |
-| `cd <path>` | Change directory/object within the project (supports numeric index and `@/` root paths) |
+| `cd <path>` | Change directory/object within `celebi` (shell-only) |
+| `cd-project <name>` | Switch project within `celebi` (shell-only) |
 | `tree` | Display the directory tree |
 | `mkdir <path>` | Create a new directory object |
 | `ls` | List the current object: README, subobjects, and status tags (options like `ls --status`) |
@@ -28,9 +45,9 @@ Square brackets `[ ]` mark optional arguments.
 |---|---|
 | `create-algorithm <name>` | Create an algorithm object (a reusable computation template) |
 | `create-task <name>` | Create a task object (a concrete instance of an algorithm) |
-| `create-multi-tasks <base> <n>` | Create multiple tasks at once |
+| `create-multi-tasks <base> <stop> [--start <n>]` | Create numbered tasks for the half-open range `start <= n < stop` |
 | `create-data <name>` | Create a data object |
-| `create-multi-data <base> <n>` | Create multiple data objects at once |
+| `create-multi-data <path>` | Create and upload one data object per immediate child directory |
 | `create-data-list <name>` | Create a data-list object |
 | `create-lhcb-ap-list <path>` | Create an LHCb AP data-list task (generates `dataList.txt` dynamically; fill in the AP query parameters afterwards) |
 | `add-apd-token <token>` | Store an APD token for the current LHCb AP data-list task (in `.celebi/config.local.json`) |
@@ -41,11 +58,10 @@ Square brackets `[ ]` mark optional arguments.
 |---|---|
 | `add-algorithm <path>` | Attach an algorithm to the current task (visible as `code/` inside it) |
 | `add-input <path> <alias>` | Add an input to the current task/algorithm, referenced by alias (the alias system keeps reorganization safe) |
-| `input` | Alias for `add-input` |
-| `add-multi-inputs <base> <n>` | Add multiple inputs at once |
+| `add-multi-inputs <path-base> <alias-base> <stop> [--start <n>]` | Add numbered input paths and aliases for a half-open range |
 | `remove-input <alias>` | Remove an input |
-| `remove-multi-inputs` | Remove multiple inputs at once |
-| `add-parameter <name> <value>` | Add a parameter to the task, matching `${name}` in the algorithm's commands |
+| `remove-multi-inputs <alias-base> <stop> [--start <n>]` | Remove numbered aliases for a half-open range |
+| `set-parameter <name> <value>` | Set a task parameter matching `${name}` in algorithm commands |
 | `add-parameter-subtask <dirname> <name> <value>` | Add a parameter to a specific subtask inside a directory |
 | `remove-parameter <name>` | Remove a parameter |
 | `predecessors` | List the predecessors of the current object |
@@ -57,14 +73,12 @@ Square brackets `[ ]` mark optional arguments.
 |---|---|
 | `config` | Open the object's `celebi.yaml` in the default editor (creates a template if missing) |
 | `set-environment <env>` | Set the execution environment: `script` for script-based algorithms, otherwise a Docker image name |
-| `setenv` | Alias for `set-environment` |
 | `set-memory-limit <limit>` | Set the memory limit, e.g. `256Mi` |
 | `set-descriptor <text>` | Set the object's descriptor (human-readable name/description) |
-| `setdescriptor` | Alias for `set-descriptor` |
 | `add-source <path>` | Link an external source file/directory to the object (tracked for dependencies) |
 | `comment <text>` | Add a comment to the object |
 | `edit-readme` | Edit the object's README |
-| `edit-script <file>` | Edit a script file |
+| `edit <file>` | Edit a script file |
 | `watermark` | Show the object's watermark (creation metadata, version and signature info) |
 | `history` | Show the object's execution and modification history |
 | `changes` | Show recent changes to the object |
@@ -76,13 +90,13 @@ Square brackets `[ ]` mark optional arguments.
 | `impress [names...]` | Create an impression of the current object (or the named sub-objects) — seal the current state |
 | `impression` | Get the current object's impression |
 | `view` | View impressions of the current task |
-| `viewurl` | Get the impression URL |
+| `view-url [impression]` | Get an impression URL |
 | `search-impression <prefix>` | Search impressions by UUID prefix |
 | `trace` | Trace back to the task/algorithm that generated an impression |
-| `draw-dag-graphviz <output> [--exclude-algorithms]` | Draw the dependency DAG with Graphviz (PDF/SVG/PNG) |
+| `draw-dag [output] [--exclude-algorithms]` | Draw the dependency DAG with Graphviz |
 | `bookkeep` | Project-wide impression bookkeeping (storage, indexing, cleanup) |
-| `bkkurl` | Get the bookkeeping URL |
-| `viewbkk` | Open the bookkeeping URL |
+| `bookkeeping-url` | Get the bookkeeping URL |
+| `open-bookkeeping` | Open the bookkeeping page |
 | `homekeep` | Clean up workflows on the runner |
 | `clean-impressions` | Clean impressions (developer tool) |
 | `purge-impressions` | Purge impressions of the current object |
@@ -93,15 +107,16 @@ Square brackets `[ ]` mark optional arguments.
 
 | Command | Purpose and usage |
 |---|---|
-| `submit [runner] [names...]` | Submit the current object (or named sub-objects) for execution; optionally choose a runner, e.g. `submit --runner cern` |
-| `jobs` | Show job information for the current algorithm/task |
-| `status` | Show the object's status (local state + DITE job status — see [Task and algorithm states](/guide/task-and-algorithm-states/)) |
-| `kill` | Kill the current object's running process |
-| `log` | Show the current object's log |
+| `submit [--runner <name>]` | Submit the current task or container for execution |
+| `status [--wait]` | Show status and optionally poll until terminal state — see [Task and algorithm states](/guide/task-and-algorithm-states/) |
+| `cancel` | Cancel running impressions for the current task or directory |
+| `log [index] [--follow]` | Show a user-command log, optionally following new output |
 | `collect [all\|plots\|data\|logs\|<glob>\|<name>]` | Collect task results; defaults to plots + logs |
 | `engine-logs` | Fetch workflow engine logs from DITE |
-| `auto-download` | Enable/disable automatic result downloads |
-| `cache-on-runner` | Enable/disable EOS caching |
+| `collect-outputs` / `collect-logs` | Collect only outputs or logs |
+| `check-results <runner>` | Mount cached results for inspection on an SSH runner |
+| `auto-download on\|off` | Enable or disable automatic result downloads |
+| `cache-on-runner on\|off` | Enable or disable runner-side result caching |
 | `test` | Run a test workflow in a Docker container |
 | `workaround [--reference <alg>] [--skip-input <task>]` | Debug the task in a simulated local run environment — what you see is what runs |
 
@@ -125,7 +140,7 @@ Square brackets `[ ]` mark optional arguments.
 | `register-runner <name> <url> <secret>` | Register a new runner with DITE |
 | `request-runner <name>` | Set the requested runner for the current task |
 | `test-runner <name>` | Probe a runner's capabilities (snakemake/conda/workdir) |
-| `runner-envs <name>` | List conda environments available on a runner (ssh/native) |
+| `runner-environments <name>` | List conda environments available on a runner (ssh/native) |
 | `remove-runner <name>` | Remove a runner |
 | `update-runner <name> ...` | Update runner settings (url, token, backend type, Kerberos, EOS mount point, …) |
 
@@ -137,10 +152,10 @@ Square brackets `[ ]` mark optional arguments.
 | `register-ssh-data` | Register data living on an ssh runner into Yuki's managed staging (MD5 + background copy, live byte progress) |
 | `verify-data` | Verify the current data task: recompute its MD5 against the registered UUID |
 | `attach-data <uuid> [path]` | Attach a Yuki impression to a rawdata task |
-| `import <path>` / `import-file` | Import external files into the current object (`/*` imports a whole directory) |
+| `import <path>` | Import external files into the current object (`/*` imports a whole directory) |
 | `export <glob>` | Export matching files to `project/export/` |
-| `rm-file <file>` | Remove a file from the object |
-| `mv-file <src> <dst>` | Move a file within the object |
+| `remove-file <file>` | Remove a file from the object |
+| `move-file <src> <dst>` | Move a file within the object |
 | `display <file>` | View a file of the object |
 | `cat <file>` | Show file contents |
 | `imgcat <file>` | Display an image inline in the terminal (from DITE) |

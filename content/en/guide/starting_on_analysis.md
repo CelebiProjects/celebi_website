@@ -12,16 +12,17 @@ First, run the following command in WSL to start Yuki:
 ```WSL
 ❯ yuki docker run yuki:dev --dev-dir ~/Yuki --celebi-dir ~/Celebi
 ```
-Then run `celebi`
-to start our software. Type `Ctrl+D` when you want to exit.
+Initialize/select a project with `celebi-cli`, then run `celebi` to enter the
+interactive shell. Type `Ctrl+D` when you want to exit.
 
 ## Initialize the Project
 
 Create a new folder in your workdir to contain the project:
-```celebi
->>>> mkdir B02K3pi
->>>> cd B02K3pi
->>>> celebi init
+```bash
+mkdir B02K3pi
+cd B02K3pi
+celebi-cli init
+celebi
 ```
 This new folder becomes your analysis project.
 
@@ -31,7 +32,7 @@ Use the following commands to build the data file, which connects to the data on
 ```celebi
 >>>> create-data Raw
 >>>> cd Raw
->>>> register-data pkufarm212 /home/user/workdir/TestData
+>>>> register-ssh-data pkufarm212 /home/user/workdir/TestData
 ```
 ## 2. Connect Data, Algorithm and Task
 
@@ -115,7 +116,7 @@ python3 code/filter0.py
 ### Set the Environment
 Check what environments are available on the server:
 ```celebi
->>>> runner-envs pkufarm212
+>>>> runner-environments pkufarm212
 Conda environments on 'pkufarm212' (3):
   base                          /home/zouqt/miniconda3
   env_root_6.38.04              /home/zouqt/miniconda3/envs/env_root_6.38.04
