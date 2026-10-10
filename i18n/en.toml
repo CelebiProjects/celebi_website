@@ -85,3 +85,10 @@ other = "All rights reserved."
 
 [skip_to_content]
 other = "Skip to content"
+
+[nav_team]
+other = "Team"
+[team_all_contributors]
+other = "All contributors"
+[team_all_contributors_sub]
+other = "Everyone who has contributed code to Celebi on GitHub."

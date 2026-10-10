@@ -238,6 +238,28 @@ a.concept-card:hover { text-decoration: none; transform: translateY(-3px); borde
 }
 .eco-card:hover .eco-arrow { transform: translateX(4px); }
 
+/* ---------- Team ---------- */
+.team-grid {
+  display: grid; gap: 18px; margin-top: 44px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.team-card {
+  background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px 24px; box-shadow: var(--shadow);
+  transition: transform .15s ease, border-color .15s ease;
+}
+.team-card h3 { margin: 0 0 6px; font-size: 1.05rem; color: var(--brand-dark); }
+.team-card p { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
+.team-role { font-weight: 600; }
+.team-aff { margin-top: 2px; }
+.team-link { margin-top: 8px; word-break: break-all; }
+a.team-card {
+  position: relative; display: block; color: var(--ink);
+}
+a.team-card:hover { text-decoration: none; transform: translateY(-3px); border-color: var(--brand); }
+a.team-card p { padding-right: 26px; }
+a.team-card:hover .eco-arrow { transform: translateX(4px); }
+
 /* ---------- Steps ---------- */
 .steps { max-width: 780px; margin: 0 auto; display: grid; gap: 30px; }
 .step { display: flex; gap: 20px; align-items: flex-start; }

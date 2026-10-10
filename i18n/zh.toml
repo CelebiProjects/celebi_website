@@ -85,3 +85,10 @@ other = "保留所有权利。"
 
 [skip_to_content]
 other = "跳到主要内容"
+
+[nav_team]
+other = "团队"
+[team_all_contributors]
+other = "全部贡献者"
+[team_all_contributors_sub]
+other = "所有在 GitHub 上为 Celebi 贡献过代码的人。"

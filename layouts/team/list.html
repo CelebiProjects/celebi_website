@@ -1,0 +1,23 @@
+{{ define "main" }}
+<section class="section page-head">
+  <div class="container narrow">
+    <h1 class="section-title">{{ .Title }}</h1>
+    {{ with .Params.subtitle }}<p class="section-sub">{{ . }}</p>{{ end }}
+    <div class="team-grid">
+      {{ range .Params.members }}
+      <div class="team-card">
+        {{ with .name }}<h3>{{ . }}</h3>{{ end }}
+        {{ with .role }}<p class="team-role">{{ . }}</p>{{ end }}
+        {{ with .affiliation }}<p class="team-aff">{{ . }}</p>{{ end }}
+        {{ with .link }}<p class="team-link"><a href="{{ . }}" target="_blank" rel="noopener">{{ . }}</a></p>{{ end }}
+      </div>
+      {{ end }}
+      <a class="team-card team-card-link" href="{{ .Site.Params.github }}/graphs/contributors" target="_blank" rel="noopener">
+        <h3>{{ T "team_all_contributors" }}</h3>
+        <p>{{ T "team_all_contributors_sub" }}</p>
+        <span class="eco-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+{{ end }}
