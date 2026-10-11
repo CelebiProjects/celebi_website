@@ -1,5 +1,5 @@
 ---
-title: "扩展 Celebi 工作流"
+title: "2. 扩展 Celebi 工作流"
 weight: 2
 summary: "通过连接多个任务及管理任务依赖关系，扩展已有的 Celebi 分析工作流。"
 ---
