@@ -1,5 +1,5 @@
 ---
-title: "Using the Celebi VS Code Extension"
+title: "3. Using the Celebi VS Code Extension"
 weight: 3
 summary: "Manage Celebi workflows, inspect task dependencies, and preview remote analysis results directly in VS Code."
 ---
