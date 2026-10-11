@@ -1,5 +1,5 @@
 ---
-title: "开始使用 Celebi 进行分析"
+title: "1. 开始使用 Celebi 进行分析"
 summary: "学习如何使用 Celebi 在远程服务器上处理数据，同时在本地开发和管理分析代码。"
 ---
 
