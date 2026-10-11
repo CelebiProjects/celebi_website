@@ -1,5 +1,5 @@
 ---
-title: "使用 Celebi VS Code 扩展"
+title: "3. 使用 Celebi VS Code 扩展"
 weight: 3
 summary: "通过 VS Code 管理 Celebi 工作流、查看任务依赖关系，并直接预览远程分析结果。"
 ---
