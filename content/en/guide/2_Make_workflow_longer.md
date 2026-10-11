@@ -1,5 +1,5 @@
 ---
-title: "Extending a Workflow"
+title: "2. Extending a Workflow"
 weight: 2
 summary: "Extend an existing Celebi analysis by chaining tasks and managing their dependencies."
 ---
