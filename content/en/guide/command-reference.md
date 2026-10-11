@@ -140,9 +140,17 @@ callable and are listed separately by `celebi-cli --help`.
 | `register-runner <name> <url> <secret>` | Register a new runner with DITE |
 | `request-runner <name>` | Set the requested runner for the current task |
 | `test-runner <name>` | Probe a runner's capabilities (snakemake/conda/workdir) |
-| `runner-environments <name>` | List conda environments available on a runner (ssh/native) |
+| `install-environment <runner> <name> [--file <yaml>]` | Install or update a project-scoped Conda environment on an SSH/IHEP runner; defaults to `.celebi-env/<name>.yaml` |
+| `runner-environments <name>` | List environments for the current project on an SSH/IHEP runner |
 | `remove-runner <name>` | Remove a runner |
 | `update-runner <name> ...` | Update runner settings (url, token, backend type, Kerberos, EOS mount point, …) |
+
+Project environments are installed below
+`<remote_workdir>/environments/<project_uuid>/<environment_name>`, so two projects
+using the same logical name remain isolated. Re-running `install-environment` updates
+the prefix with `conda env update --prune`. The YAML `name` field is ignored, and no
+specification hash is stored: these environments are trusted mutable runner state.
+Explicit Yuki `conda_env_map` entries remain available for compatibility.
 
 ## Data management
 

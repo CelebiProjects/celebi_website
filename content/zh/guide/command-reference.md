@@ -138,9 +138,17 @@ status --help
 | `register-runner <name> <url> <secret>` | 向 DITE 注册新 runner |
 | `request-runner <name>` | 为当前任务指定执行 runner |
 | `test-runner <name>` | 探测 runner 能力(snakemake/conda/workdir) |
-| `runner-environments <name>` | 列出 runner 上的 conda 环境(ssh/native) |
+| `install-environment <runner> <name> [--file <yaml>]` | 在 SSH/IHEP runner 上安装或更新项目专属 Conda 环境；默认读取 `.celebi-env/<name>.yaml` |
+| `runner-environments <name>` | 列出当前项目在 SSH/IHEP runner 上的环境 |
 | `remove-runner <name>` | 移除 runner |
 | `update-runner <name> ...` | 更新 runner 设置(url、token、backend_type、Kerberos、EOS 挂载点等) |
+
+项目环境安装在
+`<remote_workdir>/environments/<project_uuid>/<environment_name>`，因此不同项目即使
+使用相同环境名也不会共享路径。再次运行 `install-environment` 会通过
+`conda env update --prune` 更新环境。YAML 中的 `name` 字段不会决定安装路径，也不
+记录环境配置哈希：这里把环境视为可信、可变的 runner 状态。Yuki 中显式配置的
+`conda_env_map` 仍作为兼容方式保留。
 
 ## 数据管理
 

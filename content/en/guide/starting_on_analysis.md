@@ -114,16 +114,18 @@ python3 code/filter0.py
 
 ## 3. Run the Workflow
 ### Set the Environment
-Check what environments are available on the server:
+Create a standard Conda YAML in the project and install it on the runner:
 ```celebi
+>>>> install-environment pkufarm212 env_root_6.38.04
+Installing environment 'env_root_6.38.04' on 'pkufarm212'...
+Environment 'env_root_6.38.04' is ready at .../environments/<project_uuid>/env_root_6.38.04.
 >>>> runner-environments pkufarm212
-Conda environments on 'pkufarm212' (3):
-  base                          /home/zouqt/miniconda3
-  env_root_6.38.04              /home/zouqt/miniconda3/envs/env_root_6.38.04
-  snakemake                     /home/zouqt/miniconda3/envs/snakemake
+Conda environments on 'pkufarm212' (1):
+  env_root_6.38.04              .../environments/<project_uuid>/env_root_6.38.04
 ```
 
-Copy `env_root_6.38.04` to the YAML file of the task.
+The default specification path is `.celebi-env/env_root_6.38.04.yaml`. Set the
+task environment to the same logical name, `env_root_6.38.04`.
 ### Configure the Runner
 If "Cache on runner" is `False`, enable it:
 
