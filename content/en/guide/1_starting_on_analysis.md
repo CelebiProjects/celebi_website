@@ -1,5 +1,5 @@
 ---
-title: "Starting an Analysis"
+title: "1. Starting an Analysis"
 summary: "Learn how to run a Celebi analysis with remote data and locally managed code."
 ---
 
