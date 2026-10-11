@@ -116,7 +116,7 @@ callable and are listed separately by `celebi-cli --help`.
 | `collect-outputs` / `collect-logs` | Collect only outputs or logs |
 | `check-results <runner>` | Mount cached results for inspection on an SSH runner |
 | `auto-download on\|off` | Enable or disable automatic result downloads |
-| `cache-on-runner on\|off` | Enable or disable runner-side result caching |
+| `cache-on-runner on\|off` | Enable or disable runner-side result caching (no additional effect on native) |
 | `test` | Run a test workflow in a Docker container |
 | `workaround [--reference <alg>] [--skip-input <task>]` | Debug the task in a simulated local run environment — what you see is what runs |
 
@@ -139,18 +139,25 @@ callable and are listed separately by `celebi-cli --help`.
 | `runners` | List all available runners with full configuration |
 | `register-runner <name> <url> <secret>` | Register a new runner with DITE |
 | `request-runner <name>` | Set the requested runner for the current task |
-| `test-runner <name>` | Probe a runner's capabilities (snakemake/conda/workdir) |
-| `install-environment <runner> <name> [--file <yaml>]` | Install or update a project-scoped Conda environment on an SSH/IHEP runner; defaults to `.celebi-env/<name>.yaml` |
-| `runner-environments <name>` | List environments for the current project on an SSH/IHEP runner |
+| `test-runner <name>` | Probe runner capabilities; native probes also require a live host agent |
+| `install-environment <runner> <name> [--file <yaml>]` | Install or update a project-scoped Conda environment on an SSH/IHEP/native runner; defaults to `.celebi-env/<name>.yaml` |
+| `runner-environments <name>` | List environments for the current project on an SSH/IHEP/native runner |
 | `remove-runner <name>` | Remove a runner |
 | `update-runner <name> ...` | Update runner settings (url, token, backend type, Kerberos, EOS mount point, …) |
 
 Project environments are installed below
-`<remote_workdir>/environments/<project_uuid>/<environment_name>`, so two projects
+`<runner-workdir>/environments/<project_uuid>/<environment_name>`, so two projects
 using the same logical name remain isolated. Re-running `install-environment` updates
 the prefix with `conda env update --prune`. The YAML `name` field is ignored, and no
 specification hash is stored: these environments are trusted mutable runner state.
 Explicit Yuki `conda_env_map` entries remain available for compatibility.
+For native runners, the workdir defaults to `~/.Yuki/LocalWorkflows`, and workflow
+state is separated under `workflows/<project_uuid>/<workflow_uuid>`. Submission
+fails early with the install command when a managed environment is missing.
+
+Native and Yuki Storage form one storage domain: successful stage-out enters Storage
+directly. Native therefore has no separate managed cache and is not a transfer
+location; use `yuki` instead.
 
 ## Data management
 

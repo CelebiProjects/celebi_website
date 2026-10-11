@@ -114,7 +114,7 @@ status --help
 | `collect-outputs` / `collect-logs` | 只收集输出或日志 |
 | `check-results <runner>` | 在 SSH runner 上挂载缓存结果以供检查 |
 | `auto-download on\|off` | 开启或关闭结果自动下载 |
-| `cache-on-runner on\|off` | 开启或关闭 runner 端结果缓存 |
+| `cache-on-runner on\|off` | 开启或关闭 runner 端结果缓存（对 native 无额外效果） |
 | `test` | 在 Docker 容器中执行测试工作流 |
 | `workaround [--reference <alg>] [--skip-input <task>]` | 本地模拟运行环境调试任务,所见即所跑 |
 
@@ -137,18 +137,24 @@ status --help
 | `runners` | 列出所有可用 runner 及完整配置 |
 | `register-runner <name> <url> <secret>` | 向 DITE 注册新 runner |
 | `request-runner <name>` | 为当前任务指定执行 runner |
-| `test-runner <name>` | 探测 runner 能力(snakemake/conda/workdir) |
-| `install-environment <runner> <name> [--file <yaml>]` | 在 SSH/IHEP runner 上安装或更新项目专属 Conda 环境；默认读取 `.celebi-env/<name>.yaml` |
-| `runner-environments <name>` | 列出当前项目在 SSH/IHEP runner 上的环境 |
+| `test-runner <name>` | 探测 runner 能力；native 还会检查 host agent 是否存活 |
+| `install-environment <runner> <name> [--file <yaml>]` | 在 SSH/IHEP/native runner 上安装或更新项目专属 Conda 环境；默认读取 `.celebi-env/<name>.yaml` |
+| `runner-environments <name>` | 列出当前项目在 SSH/IHEP/native runner 上的环境 |
 | `remove-runner <name>` | 移除 runner |
 | `update-runner <name> ...` | 更新 runner 设置(url、token、backend_type、Kerberos、EOS 挂载点等) |
 
 项目环境安装在
-`<remote_workdir>/environments/<project_uuid>/<environment_name>`，因此不同项目即使
+`<runner-workdir>/environments/<project_uuid>/<environment_name>`，因此不同项目即使
 使用相同环境名也不会共享路径。再次运行 `install-environment` 会通过
 `conda env update --prune` 更新环境。YAML 中的 `name` 字段不会决定安装路径，也不
 记录环境配置哈希：这里把环境视为可信、可变的 runner 状态。Yuki 中显式配置的
 `conda_env_map` 仍作为兼容方式保留。
+native runner 的工作目录默认是 `~/.Yuki/LocalWorkflows`，工作流状态按
+`workflows/<project_uuid>/<workflow_uuid>` 分层。若项目环境尚未安装，提交会提前
+失败并给出对应的安装命令。
+
+Native 与 Yuki Storage 属于同一存储域：成功 stage-out 会直接进入 Storage。因此
+native 没有独立的托管缓存，也不是 transfer 位置；此时应使用 `yuki`。
 
 ## 数据管理
 
