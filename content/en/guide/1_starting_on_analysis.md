@@ -378,10 +378,13 @@ A completed remote task does not necessarily mean that all output files have bee
 If necessary, use:
 
 ```text
->>>> collect
+>>>> collect data
+# Or collect every category:
+>>>> collect all
 ```
 
-to collect the task results.
+Bare `collect` downloads plots and logs only. Use `collect data` for ROOT and
+other data outputs, or `collect all` for every category.
 
 For large ROOT files, retaining outputs on the remote runner can avoid unnecessary transfers to the local machine.
 
@@ -392,7 +395,7 @@ Celebi can generate a directed acyclic graph (DAG) to visualize task dependencie
 Run:
 
 ```text
->>>> draw-dag-graphviz
+>>>> draw-dag
 ```
 
 The graph shows the relationships between data objects and processing tasks.

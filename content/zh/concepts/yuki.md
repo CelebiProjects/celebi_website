@@ -6,7 +6,8 @@ summary: "中间件(DITE):排队操作、分派作业、掌管数据。"
 
 **Yuki** 是 Celebi 系统的中间件 —— *Data Integration Thought Entity*(DITE)。
 用户只需要操作仓库;作业提交由 Yuki 管理,它把 impression 翻译成 Snakemake
-工作流,并分发给 [runner](/zh/concepts/runner/)(目前主要是 REANA)。
+工作流,并通过 REANA、native、SSH 或 IHEP 后端分发给
+[runner](/zh/concepts/runner/)。
 
 ![Yuki 中间件与工作流 runner](/images/concepts/yuki.png)
 
@@ -18,6 +19,7 @@ summary: "中间件(DITE):排队操作、分派作业、掌管数据。"
 
 ## 数据存储
 
-结果**存储在 Yuki 中** —— 仓库并不直接看到它们。数据由中间件拥有和管理,
-仓库通过 impression UUID 引用样本;UUID 由项目、前驱节点与本节点共同决定,
-因此数据样本与代码永远不会错位。
+Yuki 跟踪每份结果所在的位置。已收集的结果存入 Yuki Storage;SSH/IHEP 的输出在
+收集或迁移前也可能只存在于 runner cache 或 workflow workspace。native 的
+stage-out 则直接进入 Yuki Storage。仓库通过 impression UUID 引用结果,从而保持
+代码、参数、输入与输出之间的对应关系。

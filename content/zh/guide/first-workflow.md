@@ -21,30 +21,18 @@ cd demo-basic-01
 
 ```sh
 cd demo-basic-01 # (如果还没有进入该目录)
-celebi use .
+celebi-cli register-project .
+celebi-cli list-projects
+celebi --project demo-basic-01
 ```
 
-`celebi use .` 把 `demo-basic-01` 项目注册到 Celebi 中。注册之后,这个项目就成为
-Celebi 系统管理的项目之一。
-
-你可以运行:
+`register-project` 注册指定路径中的项目而不改变其 UUID;`list-projects` 显示项目
+注册表;`celebi --project` 直接为该项目打开交互式 shell。若希望后续会话默认使用
+此项目,运行:
 
 ```sh
-celebi projects
+celebi-cli use-project demo-basic-01
 ```
-
-查看 Celebi 当前管理的所有项目。
-
-你也可以用:
-
-```sh
-celebi workon [project_name]
-```
-
-切换当前的工作项目。
-
-用 `celebi workon` 选好项目后,`celebi` 命令都会在 Celebi 环境与当前所选项目中
-运行。
 
 ## 3. 理解目录结构
 
@@ -170,14 +158,36 @@ parameters:
   它指定任务申请的内存量。
 
 * **`alias`**
-  它给任务定义一个人类可读的别名,方便识别或引用任务。
+  它记录前驱输入在任务内挂载时使用的名称。`GenTask` 没有上游输入,所以这里为空。
 
 通常用户不需要阅读或修改隐藏文件,例如 `.celebi/*`。这些文件由 Celebi 系统自动
 管理。不过了解它们的用途仍然有帮助,所以我们在这里简单说明一下。
 
-[runner](/zh/concepts/runner/) 解析依赖,先运行 Gen,再运行 Fit,输出经由
-[Yuki](/zh/concepts/yuki/) 取回。在某个目录中执行 `submit`,等于在它所有子节点中
-执行 —— 一个动作提交整个工作流。
+## 4. 提交并检查工作流
+
+这个示例使用 Docker 镜像,请先确认 Yuki 正在运行,并注册一个能够执行容器的
+runner。参见[安装与首次启动](/zh/guide/setup/)和
+[Runner 与环境](/zh/guide/runners-and-environments/)。然后在项目根目录的 Celebi
+shell 中执行:
+
+```text
+>>>> runners
+>>>> submit --runner RUNNER_NAME
+>>>> status --wait
+```
+
+[runner](/zh/concepts/runner/) 会解析依赖并先运行 Gen、再运行 Fit。在 `FitTask`
+中检查日志并取回结果:
+
+```text
+>>>> cd FitTask
+>>>> log 0
+>>>> collect all
+>>>> ls --status
+```
+
+对目录执行 `submit` 会把子任务作为一个依赖感知的工作流提交,结果经由
+[Yuki](/zh/concepts/yuki/) 返回。
 
 ## 5. 日常操作
 

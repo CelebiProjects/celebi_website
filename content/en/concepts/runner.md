@@ -1,7 +1,7 @@
 ---
 title: "Runner"
 weight: 6
-summary: "REANA, local, or ssh — interchangeable backends that execute impressions."
+summary: "REANA, native, SSH, and IHEP backends that execute impressions."
 ---
 
 The repository holds code and impressions — so why bother with an external runner?
@@ -10,13 +10,16 @@ HTCondor, and so on. And a running workflow should never block your development.
 
 ![How a runner executes a node](/images/concepts/runner.png)
 
-## Three types of runner
+## Runner backends
 
-- **REANA runner** — the most robust one; runs in containerized environments.
-- **Local runner** — runs things on the machine that Yuki runs on.
-- **ssh runner** — jobs are submitted to an ssh machine.
+- **REANA** — executes containerized workflows on a REANA cluster.
+- **native** — a host agent executes Snakemake and Conda workflows on the machine
+  that shares Yuki's storage directory.
+- **SSH** — stages and executes workflows on a remote SSH host.
+- **IHEP** — stages through SSH and submits jobs through `hep_sub` on IHEP clusters.
 
-The latter two offer less reproducibility than containerized REANA execution.
+See [Runners and environments](/guide/runners-and-environments/) for registration,
+project environments, and backend-specific requirements.
 
 ## How a runner works
 

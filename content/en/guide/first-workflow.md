@@ -21,28 +21,18 @@ This command downloads an existing Celebi repository from GitHub. You can clone 
 
 ```sh
 cd demo-basic-01 # (if you have not already done so)
-celebi use .
+celebi-cli register-project .
+celebi-cli list-projects
+celebi --project demo-basic-01
 ```
 
-The command `celebi use .` registers the `demo-basic-01` project with Celebi. Once registered, the project becomes one of the projects managed by the Celebi system.
-
-You can run:
+`register-project` registers the project at the given path without changing its UUID.
+`list-projects` shows the registry, and `celebi --project` opens the interactive shell
+for this project directly. To make it the default for later sessions instead, run:
 
 ```sh
-celebi projects
+celebi-cli use-project demo-basic-01
 ```
-
-to see all projects currently managed by Celebi.
-
-You can also use:
-
-```sh
-celebi workon [project_name]
-```
-
-to switch your current working project.
-
-After you select a project with `celebi workon`, running `celebi` commands will operate within the Celebi environment and the currently selected project.
 
 ## 3. Understand the structure
 
@@ -155,15 +145,38 @@ Here you see the four fields:
   This specifies the amount of memory requested by the task.
 
 * **`alias`**
-  This defines a human-readable alias for the task, which can be used to identify or refer to the task more conveniently.
+  This records the names under which predecessor inputs are mounted inside the task.
+  It is empty for `GenTask` because that task has no upstream input.
 
 
 Usually, users do not need to read or modify the hidden files, such as `.celebi/*`. These files are managed automatically by the Celebi system. However, it is still useful to understand their purpose, so we will briefly explain them below.
 
 
-The [runner](/concepts/runner/) resolves the dependencies, runs Gen first, then Fit,
-and the outputs come back through [Yuki](/concepts/yuki/). Running `submit` in a
-directory executes it in all child nodes — one action submits the whole workflow.
+## 4. Submit and inspect the workflow
+
+This example uses a Docker image, so first make sure Yuki is running and that a
+container-capable runner is registered. See [Installation and first start](/guide/setup/)
+and [Runners and environments](/guide/runners-and-environments/). Then, from the
+project root in the Celebi shell:
+
+```text
+>>>> runners
+>>>> submit --runner RUNNER_NAME
+>>>> status --wait
+```
+
+The [runner](/concepts/runner/) resolves the dependencies and runs Gen before Fit.
+Inspect logs and retrieve results from `FitTask`:
+
+```text
+>>>> cd FitTask
+>>>> log 0
+>>>> collect all
+>>>> ls --status
+```
+
+Running `submit` on a directory submits its child tasks as one dependency-aware
+workflow. Results return through [Yuki](/concepts/yuki/).
 
 ## 5. Everyday operations
 

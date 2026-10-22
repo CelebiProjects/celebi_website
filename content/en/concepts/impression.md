@@ -37,5 +37,5 @@ connections.
   after running your job you are free to polish the documentation.
 
 ```sh
-celebi-cli make-impression "preselection v1"
+celebi-cli impress
 ```

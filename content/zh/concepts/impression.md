@@ -33,5 +33,5 @@ impression 系统通过这些连接记录项目的**完整历史**。
   随意打磨文档。
 
 ```sh
-celebi-cli make-impression "preselection v1"
+celebi-cli impress
 ```

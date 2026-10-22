@@ -106,8 +106,8 @@ Add the data task as an input of an analysis task and submit:
 
 ```text
 >>>> cd @/FitTask
->>>> add-input ../MyData
->>>> submit pkufarm212
+>>>> add-input ../MyData raw
+>>>> submit --runner pkufarm212
 ```
 
 How the data reaches the workflow depends on the runner:
@@ -118,9 +118,11 @@ How the data reaches the workflow depends on the runner:
   `[remote-workdir]/impressions/<project>/<impression>/`; every later
   workflow on the same runner copies it locally, with no network transfer.
 - **REANA runner**: with `cache_on_runner` on, data flows through EOS.
-- Data registered with `register-ssh-data` is bound to its runner: submitting
-  a workflow that needs it to a different runner is rejected with a clear
-  error (moving such data via `collect` is planned).
+- Data registered with `register-ssh-data` is initially bound to its runner.
+  Use `whereabouts` to inspect locations and `transfer runner:SOURCE
+  runner:DESTINATION` (or transfer through `yuki`) before submitting on a
+  different runner. `collect` retrieves results; it does not move registered
+  input data between runners.
 
 ## 6. `cache_on_runner` — where results are cached
 
@@ -163,7 +165,7 @@ Stageout files:
 
 ## 9. Working with SSH runners
 
-Two commands help you inspect an SSH runner before using it:
+Three commands help you inspect an SSH runner before using it:
 
 - `test-runner <runner>` — probes connectivity, snakemake, conda and the
   remote working directory, and stores the result (shown by `runners`).

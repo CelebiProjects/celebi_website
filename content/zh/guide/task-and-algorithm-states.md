@@ -88,7 +88,7 @@ Yuki 的作业状态是一组成对的名字,客户端显示为 `[大状态][细
 | `empty` | 该 impression 在 DITE 上还没有作业记录(作业对象类型为空)—— 一般意味着还没有 submit 过 |
 | `deposited` | 数据已存入 DITE("Data has been deposited"),但作业状态未知 —— 尚未进入真正的执行流程 |
 
-**执行阶段** —— 作业跑起来后,后端(REANA / native / ssh)回报细分状态,
+**执行阶段** —— 作业跑起来后,后端(REANA / native / SSH / IHEP)回报细分状态,
 系统原样落盘,显示时再翻译成大状态:
 
 | 细分状态(后端回报) | 大状态(显示) | 含义 |
@@ -102,8 +102,8 @@ Yuki 的作业状态是一组成对的名字,客户端显示为 `[大状态][细
 Snakefile 生成失败等),任务从未真正开跑;后者是**跑起来了但执行出错**。
 
 **注意**:常量表里还定义了 `composing`、`final note` 等状态,但当前代码路径
-并没有实际使用它们(`composing` 只会作为 REANA `created` 状态的翻译出现在
-显示里);`in movement` 与 `coda` 也不会落盘 —— 完成的任务落盘的是
+并没有实际使用它们;`created` 会直接映射为 `in movement`。`in movement` 与
+`coda` 也不会落盘 —— 完成的任务落盘的是
 `finished`,运行中的落盘的是 `running` 等细分名,`[in movement]` / `[coda]`
 只是显示时由细分状态翻译出的大状态档位。
 

@@ -6,8 +6,8 @@ summary: "The middleware (DITE) that queues operations, dispatches jobs, and own
 
 **Yuki** is the middleware of the Celebi system — the *Data Integration Thought
 Entity* (DITE). Users only need to operate the repository; job submission is managed
-by Yuki, which translates impressions into Snakemake workflows and distributes them
-to [runners](/concepts/runner/) (currently mainly REANA).
+by Yuki, which translates impressions into workflows and distributes them to
+[runners](/concepts/runner/) using REANA, native, SSH, or IHEP backends.
 
 ![Yuki middleware and workflow runners](/images/concepts/yuki.png)
 
@@ -20,7 +20,8 @@ communicate via HTTP, so Yuki should have a good connection to your local reposi
 
 ## Data storage
 
-Results are **stored in Yuki** — the repository does not see them directly. Data is
-owned and managed by the middleware, and the repository refers to samples by their
-impression UUID, which is determined by the project, the previous node, and this
-node — so a data sample can never mismatch the code.
+Yuki tracks where every result is available. Collected results live in Yuki Storage;
+SSH and IHEP outputs may instead remain in a runner cache or workflow workspace until
+they are collected or transferred. Native stage-out enters Yuki Storage directly.
+The repository refers to results by impression UUID, preserving the relationship
+between code, parameters, inputs, and output data.

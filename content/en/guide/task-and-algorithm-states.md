@@ -93,7 +93,7 @@ meaning the algorithm components are prepared and awaiting configuration.
 | `empty` | No job record exists on DITE for this impression (the job object type is empty) — usually means it has never been submitted |
 | `deposited` | The data has been deposited to DITE ("Data has been deposited"), but the job status is unknown — it has not entered real execution yet |
 
-**Execution phase** — once the job runs, the backend (REANA / native / ssh)
+**Execution phase** — once the job runs, the backend (REANA / native / SSH / IHEP)
 reports fine statuses, which are stored as-is and translated to the coarse
 status for display:
 
@@ -109,8 +109,8 @@ The distinction between `dissonance` and `failed` matters: the former means the
 failed, …) and the job never actually ran; the latter means it **ran and failed**.
 
 **Note**: the constants also define statuses such as `composing` and
-`final note`, but no current code path actually uses them (`composing` only
-appears as the display translation of REANA's `created`). `in movement` and
+`final note`, but no current code path uses them. `created` maps directly to
+`in movement`. `in movement` and
 `coda` are likewise never stored: finished jobs store `finished`, running jobs
 store `running` etc., and `[in movement]` / `[coda]` are the coarse brackets
 translated from those fine statuses for display.

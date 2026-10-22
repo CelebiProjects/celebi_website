@@ -1,7 +1,7 @@
 ---
 title: "Runner(执行器)"
 weight: 6
-summary: "REANA、本地或 ssh —— 可互换的 impression 执行后端。"
+summary: "执行 impression 的 REANA、native、SSH 与 IHEP 后端。"
 ---
 
 仓库里已经有代码和 impression 了,为什么还要外部 runner?因为 impression 应该能
@@ -10,13 +10,15 @@ summary: "REANA、本地或 ssh —— 可互换的 impression 执行后端。"
 
 ![runner 如何执行一个节点](/images/concepts/runner.png)
 
-## 三种 runner
+## Runner 后端
 
-- **REANA runner** —— 最稳健的一种,在容器化环境中运行。
-- **本地 runner** —— 在 Yuki 所在的机器上运行。
-- **ssh runner** —— 作业提交到一台 ssh 机器。
+- **REANA** —— 在 REANA 集群上执行容器化工作流。
+- **native** —— host agent 在与 Yuki 共享存储目录的机器上执行 Snakemake 与
+  Conda 工作流。
+- **SSH** —— 在远程 SSH 主机上暂存并执行工作流。
+- **IHEP** —— 通过 SSH 暂存,并在 IHEP 集群上通过 `hep_sub` 提交作业。
 
-后两种的可复现性不如容器化的 REANA 执行。
+注册方式、项目环境和各后端要求见 [Runner 与环境](/zh/guide/runners-and-environments/)。
 
 ## runner 的工作方式
 

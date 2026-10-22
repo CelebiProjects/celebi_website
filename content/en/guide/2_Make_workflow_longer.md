@@ -106,7 +106,9 @@ Enable remote caching and assign the runner:
 >>>> request-runner pkufarm212
 ```
 
-To avoid repeating these settings for every new task, configure the project defaults using `user-config`, as explained in the previous tutorial.
+To avoid repeating these settings for every new task, configure your user-level
+defaults with `user-config`. They are copied into tasks created afterwards; changing
+them does not rewrite existing tasks and does not create project-wide defaults.
 
 
 ### 3.2 Verify the configuration
@@ -154,7 +156,7 @@ Monitor execution using:
 To visualize the dependencies between tasks, run:
 
 ```celebi
->>>> draw-dag-graphviz
+>>>> draw-dag
 ```
 
 The resulting graph shows how data flows from the original input through the filtering tasks.
@@ -191,7 +193,8 @@ Do not rename registered tasks directly in VS Code or another IDE.
 
 ### 5.2 Create a directory
 
-To organize a large project, create directories using the standard Linux command:
+To organize a large project, use Celebi's `mkdir` command. It creates a registered
+directory object rather than an ordinary untracked folder:
 
 ```celebi
 >>>> mkdir filters
@@ -213,7 +216,7 @@ The resulting structure is:
 B02K3pi/
 ├── filters/
 │   └── Raw/
-├── filter0/
+├── filter/
 └── filter1/
 ```
 
@@ -226,7 +229,7 @@ When managing a Celebi project:
 - Use `mv` within Celebi to rename or relocate registered tasks and directories.
 - Avoid manually changing the locations of registered tasks in an IDE.
 - Use `mkdir` to create organizational directories.
-- Use `draw-dag-graphviz` to confirm that the workflow structure remains correct.
+- Use `draw-dag` to confirm that the workflow structure remains correct.
 
 If unexpected dependency or configuration problems occur, contact the Celebi maintainer, Mingrui Zhao (mingrui.zhao@mail.labz0.org).
 
@@ -251,8 +254,9 @@ The main advantages are:
 - **Flexible organization:** Tasks can be grouped and reorganized using Celebi commands.
 
 With these features, you can gradually extend a simple filtering task into a complete physics analysis workflow.
-A sketch of a typical workflow shows above:
-<img width="2326" height="744" alt="060df8df8929259940737e1d2d122779" src="https://github.com/user-attachments/assets/64666f55-3a7b-48a5-8bed-cf4cd98fe3dd" />
+A typical workflow looks like this:
+
+![Typical Celebi workflow](https://github.com/user-attachments/assets/64666f55-3a7b-48a5-8bed-cf4cd98fe3dd)
 
 
-Ususally tasks in the same folder will be in the same color.
+Tasks in the same folder normally use the same color.

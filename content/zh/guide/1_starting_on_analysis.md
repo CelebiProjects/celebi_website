@@ -383,8 +383,13 @@ Stageout files:
 如果需要收集任务结果，可以运行：
 
 ```text
->>>> collect
+>>>> collect data
+# 或收集所有类别:
+>>>> collect all
 ```
+
+不带参数的 `collect` 只下载图片与日志。ROOT 等数据输出请使用
+`collect data`;所有类别一起收集则使用 `collect all`。
 
 对于大型 ROOT 文件，将结果保留在远程 Runner 上可以避免不必要的本地数据传输。
 
@@ -395,7 +400,7 @@ Celebi 可以生成**有向无环图（Directed Acyclic Graph, DAG）**，用于
 运行：
 
 ```text
->>>> draw-dag-graphviz
+>>>> draw-dag
 ```
 
 生成的图像可以直观展示数据对象和处理任务之间的关系。

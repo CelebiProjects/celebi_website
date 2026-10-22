@@ -93,8 +93,8 @@ Data registration: copying — 1.2GiB/4.2GiB
 
 ```text
 >>>> cd @/FitTask
->>>> add-input ../MyData
->>>> submit pkufarm212
+>>>> add-input ../MyData raw
+>>>> submit --runner pkufarm212
 ```
 
 数据如何进入工作流取决于 runner:
@@ -104,8 +104,9 @@ Data registration: copying — 1.2GiB/4.2GiB
   `[remote-workdir]/impressions/<project>/<impression>/`;之后同一 runner 上的
   每个工作流都是本地拷贝,零网络传输。
 - **REANA runner**:开启 `cache_on_runner` 后,数据经由 EOS 流转。
-- `register-ssh-data` 登记的数据绑定在其 runner 上:把需要它的工作流提交到其他
-  runner 会被明确报错拒绝(通过 `collect` 搬运这类数据已在计划中)。
+- `register-ssh-data` 登记的数据起初绑定在其 runner 上。先用 `whereabouts` 检查
+  位置,再用 `transfer runner:SOURCE runner:DESTINATION`(或经由 `yuki`)迁移后提交
+  到其他 runner。`collect` 用于取回结果,不负责在 runner 之间搬运输入数据。
 
 ## 6. `cache_on_runner` —— 结果缓存在哪里
 
@@ -146,7 +147,7 @@ Stageout files:
 
 ## 9. 使用 SSH runner
 
-两条命令帮你检查 SSH runner:
+以下三个命令可帮助检查 SSH runner:
 
 - `test-runner <runner>` —— 探测连通性、snakemake、conda 与远端工作目录,并把
   结果保存下来(由 `runners` 展示)。
@@ -155,4 +156,4 @@ Stageout files:
 - `runner-environments <runner>` —— 列出当前项目在 runner 上的环境。
 
 注册与配置 runner(包括 SSH 密钥,`register-runner` 会自动上传)见
-[Runner](/concepts/runner/)。
+[Runner](/zh/concepts/runner/)。
