@@ -163,21 +163,18 @@ input_file.Close()
 
 ## 4. 配置运行环境
 
-### 4.1 查看服务器上的可用环境
+### 4.1 安装并查看环境
 
-使用以下命令查看远程服务器上的 Conda 环境：
+在项目的 `.celebi-env/env_root_6.38.04.yaml` 中创建标准 Conda YAML，
+然后将环境安装到 Runner 并查看当前项目的环境：
 
 ```text
+>>>> install-environment pkufarm212 env_root_6.38.04
+Installing environment 'env_root_6.38.04' on 'pkufarm212'...
+Environment 'env_root_6.38.04' is ready at .../environments/<project_uuid>/env_root_6.38.04.
 >>>> runner-environments pkufarm212
-```
-
-示例输出：
-
-```text
-Conda environments on 'pkufarm212' (3):
-  base                  /home/zouqt/miniconda3
-  env_root_6.38.04      /home/zouqt/miniconda3/envs/env_root_6.38.04
-  snakemake             /home/zouqt/miniconda3/envs/snakemake
+Conda environments on 'pkufarm212' (1):
+  env_root_6.38.04      .../environments/<project_uuid>/env_root_6.38.04
 ```
 
 本例使用：
@@ -186,7 +183,7 @@ Conda environments on 'pkufarm212' (3):
 environment: env_root_6.38.04
 ```
 
-需要确保指定的环境确实存在于远程 Runner 上。
+任务中的环境名称应与项目安装到 Runner 上的逻辑环境名称一致。
 
 ### 4.2 设置默认环境
 

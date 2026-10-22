@@ -161,21 +161,18 @@ Files written to `stageout/` are treated as the task's output artifacts.
 
 ## 4. Configure the Execution Environment
 
-### 4.1 Check available environments
+### 4.1 Install and check the environment
 
-To list the Conda environments available on the remote server:
+Create a standard Conda YAML at `.celebi-env/env_root_6.38.04.yaml` in the
+project, then install it on the runner and list the project environments:
 
 ```text
+>>>> install-environment pkufarm212 env_root_6.38.04
+Installing environment 'env_root_6.38.04' on 'pkufarm212'...
+Environment 'env_root_6.38.04' is ready at .../environments/<project_uuid>/env_root_6.38.04.
 >>>> runner-environments pkufarm212
-```
-
-Example output:
-
-```text
-Conda environments on 'pkufarm212' (3):
-  base                  /home/zouqt/miniconda3
-  env_root_6.38.04      /home/zouqt/miniconda3/envs/env_root_6.38.04
-  snakemake             /home/zouqt/miniconda3/envs/snakemake
+Conda environments on 'pkufarm212' (1):
+  env_root_6.38.04      .../environments/<project_uuid>/env_root_6.38.04
 ```
 
 For this analysis, we use:
@@ -184,7 +181,8 @@ For this analysis, we use:
 environment: env_root_6.38.04
 ```
 
-The environment must exist on the runner.
+The task environment uses the same logical name as the installed project
+environment.
 
 ### 4.2 Set the default environment
 

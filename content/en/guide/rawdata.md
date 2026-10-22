@@ -167,8 +167,10 @@ Two commands help you inspect an SSH runner before using it:
 
 - `test-runner <runner>` — probes connectivity, snakemake, conda and the
   remote working directory, and stores the result (shown by `runners`).
-- `runner-environments <runner>` — lists the conda environments available on the
-  runner.
+- `install-environment <runner> <name>` — installs or updates the current
+  project's environment from `.celebi-env/<name>.yaml`.
+- `runner-environments <runner>` — lists the current project's environments on
+  the runner.
 
 See [Runner](/concepts/runner/) for registering and configuring runners
 (including SSH keys, which are uploaded automatically by `register-runner`).
