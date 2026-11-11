@@ -1,6 +1,7 @@
 ---
 title: "Task and algorithm states"
-weight: 2
+weight: 10
+guide_group: "core-data"
 summary: "The local new/impressed states, and the musically-named job status system on DITE after submission."
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: "Runners and environments"
-weight: 4
+weight: 20
+guide_group: "getting-started"
 summary: "Configure REANA, native, SSH, and IHEP execution and project environments."
 ---
 
@@ -62,9 +63,11 @@ For REANA, the normal `environment` value can be a container image. Algorithms w
 commands inherit the task environment use `environment: script`.
 
 LHCb releases can be declared with an `lb_run` block containing required `project`
-and `version` fields and an optional `platform`. The ordinary `environment` remains
-required as an ABI-compatible base. Native, SSH, and IHEP hosts must expose
-`/cvmfs/lhcb.cern.ch`; REANA must mount the same repository.
+and `version` fields plus optional `platform` and `nightly`. All fields support Task
+parameter substitution. The ordinary `environment` remains required as an
+ABI-compatible base. Native, SSH, and IHEP hosts must expose
+`/cvmfs/lhcb.cern.ch`; nightly execution also needs `/cvmfs/lhcbdev.cern.ch`.
+REANA must mount the corresponding repositories.
 
 For a dated LbConda environment, use:
 

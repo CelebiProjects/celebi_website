@@ -1,6 +1,7 @@
 ---
 title: "Runner 与环境"
-weight: 4
+weight: 20
+guide_group: "getting-started"
 summary: "配置 REANA、native、SSH、IHEP 执行后端和项目环境。"
 ---
 
@@ -59,9 +60,11 @@ Yuki 将环境安装到
 对 REANA 来说,普通 `environment` 可以是容器镜像。命令继承任务环境的算法使用
 `environment: script`。
 
-LHCb release 可通过 `lb_run` 块声明,其中 `project`、`version` 必填,`platform`
-可选。普通 `environment` 仍须提供 ABI 兼容的基础环境。native、SSH、IHEP 主机
-必须已有 `/cvmfs/lhcb.cern.ch`;REANA 则需挂载该仓库。
+LHCb release 可通过 `lb_run` 块声明，其中 `project`、`version` 必填，
+`platform`、`nightly` 可选，所有字段均支持 Task 参数替换。普通
+`environment` 仍须提供 ABI 兼容的基础环境。native、SSH、IHEP 主机必须已有
+`/cvmfs/lhcb.cern.ch`；nightly 还需要 `/cvmfs/lhcbdev.cern.ch`。REANA 需挂载
+相应仓库。
 
 使用指定日期的 LbConda 环境:
 

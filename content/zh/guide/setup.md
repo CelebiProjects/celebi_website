@@ -1,6 +1,7 @@
 ---
 title: "安装与首次启动"
-weight: 2
+weight: 10
+guide_group: "getting-started"
 summary: "安装 Celebi 与 Yuki,启动服务并初始化项目。"
 ---
 
@@ -9,7 +10,9 @@ runner 注册与结果位置管理。可用的本地环境需要安装两者并�
 
 ## 从源码安装
 
-若要分别开发两个项目,建议使用不同的 Python 或 Conda 环境:
+Celebi 和 Yuki 仍在快速开发中，因此建议以 editable mode 安装源码：
+`git pull` 更新后无需重新安装，新代码就会直接生效。若要分别开发两个项目，
+建议使用不同的 Python 或 Conda 环境：
 
 ```sh
 git clone https://github.com/CelebiProjects/Celebi.git
@@ -27,28 +30,31 @@ celebi-git --help
 yuki --help
 ```
 
-## 在本机启动 Yuki
+## 使用 Docker Compose 在本机启动 Yuki
 
-Yuki 的 Flask server 与 Celery worker 需要 RabbitMQ。在 Yuki 源码目录中,配套
-脚本会创建并启动独立的 broker 环境:
+在 Yuki 源码目录中，Docker Compose 会构建开发镜像、挂载本地 Yuki 源码，
+并一起启动 RabbitMQ、Flask API 和 Celery worker：
 
 ```sh
-scripts/setup-rabbitmq.sh
-yuki server start
-yuki server status
+cd Yuki
+docker compose up --build
 ```
 
-API 默认监听 `3315` 端口。Yuki 首次启动时会注册名为 `local` 的 native runner。
-执行 native 工作流还需要 host agent:
+首次构建完成后，直接运行 `docker compose up` 即可。使用 Celebi 时保持该终端
+运行；也可添加 `-d` 让服务在后台运行，再用 `docker compose logs -f` 跟踪日志。
+后台服务可用 `docker compose down` 停止。
+
+API 默认监听 `3315` 端口，Yuki 数据保存在宿主机的 `~/.Yuki` 目录中。
+Yuki 首次启动时会注册名为 `local` 的 native runner。执行 native 工作流
+仍需要宿主机 agent，请在通过 `pip install -e .` 安装 Yuki 的环境中启动：
 
 ```sh
 yuki native-runner start
 yuki native-runner status
 ```
 
-用 `yuki native-runner logs` 查看日志;维护前用 `yuki native-runner stop` 停止。
-也可以用 `yuki docker run` 启动一体化 Docker 服务;native host agent 仍运行在容器
-之外,并与容器共享同一个 `YUKIDIR`。
+用 `yuki native-runner logs` 查看日志；维护前用 `yuki native-runner stop` 停止。
+native host agent 运行在 Compose 容器之外，并与容器共享同一个 `YUKIDIR`。
 
 ## 连接 Celebi 并创建项目
 

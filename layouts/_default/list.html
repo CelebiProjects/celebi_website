@@ -10,6 +10,26 @@
 <section class="section page-head">
   <div class="container narrow">
     <h1 class="section-title">{{ .Title }}</h1>
+    {{ if and (eq .Section "guide") .Params.guideGroups }}
+    <div class="guide-groups">
+      {{ range .Params.guideGroups }}
+      {{ $groupID := .id }}
+      {{ $groupPages := where $pages "Params.guide_group" $groupID }}
+      <section class="guide-group" aria-labelledby="guide-group-{{ $groupID }}">
+        <h2 id="guide-group-{{ $groupID }}">{{ .title }}</h2>
+        {{ with .summary }}<p class="guide-group-summary">{{ . }}</p>{{ end }}
+        <ul class="news-list">
+          {{ range $groupPages.ByWeight }}
+          <li class="nodate">
+            <a href="{{ .RelPermalink }}">{{ .Params.shortTitle | default .Title }}</a>
+            {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+          </li>
+          {{ end }}
+        </ul>
+      </section>
+      {{ end }}
+    </div>
+    {{ else }}
     <ul class="news-list">
       {{ range $pages }}
       <li{{ if .Date.IsZero }} class="nodate"{{ end }}>
@@ -22,6 +42,7 @@
       </li>
       {{ end }}
     </ul>
+    {{ end }}
   </div>
 </section>
 {{ end }}

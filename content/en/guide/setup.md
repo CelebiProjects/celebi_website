@@ -1,6 +1,7 @@
 ---
 title: "Installation and first start"
-weight: 2
+weight: 10
+guide_group: "getting-started"
 summary: "Install Celebi and Yuki, start their services, and initialize a project."
 ---
 
@@ -10,8 +11,10 @@ needs both packages and a running Yuki service.
 
 ## Install from source
 
-Use separate Python or Conda environments if you want to develop the two projects
-independently:
+Celebi and Yuki are under rapid development. Installing their source checkouts in
+editable mode is therefore recommended: updates from `git pull` become available
+without reinstalling the packages. Use separate Python or Conda environments if
+you want to develop the two projects independently:
 
 ```sh
 git clone https://github.com/CelebiProjects/Celebi.git
@@ -29,19 +32,26 @@ celebi-git --help
 yuki --help
 ```
 
-## Start Yuki locally
+## Start Yuki locally with Docker Compose
 
-Yuki's Flask server and Celery worker require RabbitMQ. From the Yuki checkout, the
-provided setup script creates and starts a dedicated broker environment:
+From the Yuki checkout, Docker Compose builds the development image, mounts the
+local Yuki source, and starts RabbitMQ, the Flask API, and the Celery worker
+together:
 
 ```sh
-scripts/setup-rabbitmq.sh
-yuki server start
-yuki server status
+cd Yuki
+docker compose up --build
 ```
 
-The API listens on port `3315` by default. On first start Yuki registers a native
-runner named `local`. Native workflows require the host agent:
+After the first build, plain `docker compose up` is sufficient. Keep that terminal
+open while using Celebi, or add `-d` to run the service in the background and use
+`docker compose logs -f` to follow its logs. Stop a background service with
+`docker compose down`.
+
+The API listens on port `3315` by default, and Yuki's data persists in the host
+`~/.Yuki` directory. On first start Yuki registers a native runner named `local`.
+Native workflows still require the host agent, started from the environment where
+Yuki was installed with `pip install -e .`:
 
 ```sh
 yuki native-runner start
@@ -49,8 +59,8 @@ yuki native-runner status
 ```
 
 Use `yuki native-runner logs` for agent logs and `yuki native-runner stop` before
-maintenance. Alternatively, `yuki docker run` starts the all-in-one Docker service;
-the native host agent still runs outside the container and shares the same `YUKIDIR`.
+maintenance. The native host agent runs outside the Compose container and shares
+the same `YUKIDIR`.
 
 ## Connect Celebi and create a project
 

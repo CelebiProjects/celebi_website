@@ -1,6 +1,7 @@
 ---
 title: "运维与恢复"
-weight: 6
+weight: 10
+guide_group: "operations-reference"
 summary: "监控和恢复工作流,维护存储,发布 bookkeeping,并运维 Yuki。"
 ---
 

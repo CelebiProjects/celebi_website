@@ -1,6 +1,7 @@
 ---
 title: "数据位置与生命周期"
-weight: 5
+weight: 30
+guide_group: "core-data"
 summary: "注册外部数据,定位和迁移结果,并管理保留策略。"
 ---
 
@@ -33,7 +34,9 @@ XRootD 清点在指定的 SSH runner 上执行,该主机必须提供 `python3`�
 凭据。`--checksum required` 会拒绝没有服务端 checksum 的条目;
 `--checksum none` 跳过 checksum 查询。LHCb AP 列表可用
 `create-lhcb-ap-list NAME` 创建,随后编辑 `ap_config`,并用 `add-apd-token` 添加
-只保存在本地的 APD token。
+只保存在本地的 APD token。普通执行 Task（包括 `lb-conda` Task）也可以使用同一
+本地 token。它保存在 Git 排除的配置中；Yuki 只在执行工作区暂存权限为 `0600`
+的 token 文件，不把 token 值写入命令或日志。
 
 为任务连接数据时必须给出 alias:
 
@@ -67,6 +70,23 @@ celebi-cli cache-results RUNNER
 ```
 
 native 执行与 Yuki Storage 属于同一存储域,因此 native 不是单独的迁移位置。
+
+## 通过 SSH 分享完整 impression
+
+当另一套 Celebi/Yuki 需要完整、不可变的 Task 快照，而不是部分结果文件时，使用：
+
+```sh
+celebi-cli share-ssh-impressions --export RUNNER
+celebi-cli share-ssh-impressions --import RUNNER
+```
+
+在 Task 中运行时只处理一个 active impression；在目录或项目中运行时处理全部后代
+Task。Algorithm 不是合法范围。该命令使用 SSH runner 的受管 impression 区，与
+在 `yuki` 和 `runner:NAME` 之间选择性迁移 stageout 的 `transfer` 不同。
+
+Celebi/Yuki 1.1.0 会在 SSH impression 双向分享时排除所有
+`config.local.json` 和 `lbapi_key.json`。不可变快照仍可使用，但目标环境若需执行
+APD 任务，必须自行提供本地凭据。
 
 ## 保留与清理
 

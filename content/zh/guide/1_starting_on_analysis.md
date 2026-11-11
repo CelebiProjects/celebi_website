@@ -1,11 +1,17 @@
 ---
-title: "1. 开始使用 Celebi 进行分析"
+title: "使用 SSH 数据进行远程分析"
+weight: 10
+guide_group: "workflow-tutorials"
 summary: "学习如何使用 Celebi 在远程服务器上处理数据，同时在本地开发和管理分析代码。"
 ---
 
-# 开始使用 Celebi 进行分析
+# 使用 SSH 数据进行远程分析
 
 本教程介绍如何使用 **Celebi** 创建并运行一个物理分析工作流。
+
+这是使用 SSH runner 的学习路径。请先完成[安装与首次启动](/zh/guide/setup/)
+和 [Runner 与环境](/zh/guide/runners-and-environments/)；如果只想先跑通一个更短的
+本地示例，请阅读[你的第一个工作流](/zh/guide/first-workflow/)。
 
 在本例中：
 

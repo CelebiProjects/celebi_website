@@ -1,6 +1,7 @@
 ---
 title: "命令参考"
-weight: 3
+weight: 20
+guide_group: "operations-reference"
 summary: "Celebi 交互式 shell、单次 CLI 与 Git 命令的分类速查。"
 ---
 
@@ -49,9 +50,12 @@ status --help
 | `create-multi-data <path>` | 为路径下每个直接子目录创建并上传一个数据对象 |
 | `create-data-list <name>` | 创建数据列表对象 |
 | `create-lhcb-ap-list <name>` | 创建 LHCb AP 数据列表任务(动态生成 `dataList.txt`,需自行填写 AP 查询参数) |
-| `add-apd-token <token>` | 为当前 LHCb AP 数据列表任务添加 APD token(存入 `.celebi/config.local.json`) |
+| `add-apd-token <token>` | 为当前 AP 数据列表或普通执行 Task 保存 APD token（存入 `.celebi/config.local.json`） |
 
 ## 连接对象与参数
+
+重复执行同一个 Task 时，在 YAML 中配置 `subtasks: N`。编号输入与固定
+`stageout/index/` 输出的约定见[重复任务与高斯 toy]({{< relref "subtasks.md" >}})。
 
 | 命令 | 作用与用法 |
 |---|---|
@@ -109,7 +113,7 @@ status --help
 | `submit [--runner <name>] [--timeout <seconds>] [--with-unknown]` | 提交当前任务或容器对象执行 |
 | `status [--wait] [--poll-interval <seconds>]` | 显示状态并可轮询至终态,详见[任务与算法的状态](/zh/guide/task-and-algorithm-states/) |
 | `cancel` | 取消当前任务或目录中正在运行的 impressions |
-| `log [index] [--follow]` | 显示用户命令日志,并可持续跟随新输出 |
+| `log [index] [--subtask <n>] [--follow]` | 显示命令日志；用 `--subtask` 选择重复执行实例 |
 | `collect [all\|plots\|data\|logs\|<glob>\|<name>] [--allow-failed]` | 收集任务结果;默认收集 plots + logs |
 | `engine-logs [--fetch]` | 显示已保存的工作流引擎日志,或从 DITE 获取 |
 | `collect-outputs` / `collect-logs` | 只收集输出或日志 |
@@ -170,6 +174,7 @@ native 没有独立的托管缓存，也不是 transfer 位置；此时应使用
 | `register-xrootd-data <runner> <root-url> [--checksum auto\|required\|none]` | 不经 Yuki 复制载荷,把 XRootD 样本冻结为 datalist |
 | `verify-data` | 校验当前数据任务:重算 MD5 与注册 UUID 对比 |
 | `attach-data <uuid> [--path <path>]` | 把 Yuki impression 附加到 rawdata 任务 |
+| `share-ssh-impressions <runner> (--export\|--import) [--force]` | 通过 SSH runner 托管区导出或导入完整的 active Task impressions |
 | `whereabouts` | 查看当前结果位于 Yuki Storage 还是 runner cache |
 | `transfer <source> <destination>` | 在 `yuki` 与 `runner:<name>` 位置间迁移结果 |
 | `cache-results <runner>` | 将当前结果复制到 SSH runner 的托管缓存 |

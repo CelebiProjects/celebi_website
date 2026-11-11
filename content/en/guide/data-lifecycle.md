@@ -1,6 +1,7 @@
 ---
 title: "Data locations and lifecycle"
-weight: 5
+weight: 30
+guide_group: "core-data"
 summary: "Register external data, locate and transfer results, and manage retention."
 ---
 
@@ -34,7 +35,9 @@ XRootD inventory runs on the named SSH runner, which must provide `python3`, `xr
 and the required credentials. `--checksum required` rejects entries without a server
 checksum; `--checksum none` skips checksum queries. LHCb AP lists can instead be
 created with `create-lhcb-ap-list NAME`; edit its `ap_config` and add the local APD
-token with `add-apd-token`.
+token with `add-apd-token`. Ordinary execution Tasks, including `lb-conda` Tasks,
+can use the same local token. It stays in git-excluded configuration; Yuki stages
+a mode-`0600` token file and does not place the value in commands or logs.
 
 Wire data into a task with an explicit alias:
 
@@ -71,6 +74,26 @@ celebi-cli cache-results RUNNER
 
 Native execution and Yuki Storage are one storage domain, so native is not a
 separate transfer location.
+
+## Share complete impressions through SSH
+
+Use `share-ssh-impressions` when another Celebi/Yuki installation needs complete
+immutable Task snapshots rather than selected result files:
+
+```sh
+celebi-cli share-ssh-impressions --export RUNNER
+celebi-cli share-ssh-impressions --import RUNNER
+```
+
+From a Task the scope is one active impression; from a directory or project it is
+all descendant Tasks. Algorithms are not valid scopes. This operation uses the SSH
+runner's managed impression store and is distinct from `transfer`, which moves
+selected stageout files between `yuki` and `runner:NAME`.
+
+Celebi/Yuki 1.1.0 excludes every `config.local.json` and `lbapi_key.json` from
+SSH impression sharing in both directions. The immutable snapshot remains usable,
+but the destination must supply its own local APD credential when execution needs
+one.
 
 ## Retention and cleanup
 

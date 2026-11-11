@@ -1,12 +1,15 @@
 ---
-title: "3. 使用 Celebi VS Code 扩展"
-weight: 3
+title: "在 VS Code 中检查结果"
+weight: 30
+guide_group: "workflow-tutorials"
 summary: "通过 VS Code 管理 Celebi 工作流、查看任务依赖关系，并直接预览远程分析结果。"
 ---
 
-# 使用 Celebi VS Code 扩展
+# 在 VS Code 中检查结果
 
-在前两篇教程中，我们学习了如何创建 Celebi 工作流、连接多个任务，以及在远程服务器上执行分析程序。
+完成[远程分析](/zh/guide/1_starting_on_analysis/)并
+[扩展工作流](/zh/guide/2_make_workflow_longer/)后，可以使用 Celebi 扩展在
+VS Code 中检查项目及其远程结果。
 
 然而，仅使用命令行界面不太方便查看任务的详细信息和分析结果，尤其是当我们需要处理存储在远程服务器上的大型数据文件时。
 
@@ -36,7 +39,7 @@ summary: "通过 VS Code 管理 Celebi 工作流、查看任务依赖关系，�
 
 ### 连接 Celebi
 
-首先，确保已经按照第一篇教程中的步骤启动了 Yuki 和 Celebi。
+首先，确保已经按照[安装与首次启动](/zh/guide/setup/)中的步骤启动了 Yuki 和 Celebi。
 
 然后点击 Celebi 面板右上角的 **Refresh（刷新）** 按钮。
 

@@ -291,6 +291,13 @@ pre.code {
 .news-list li.nodate { grid-template-columns: 1fr; }
 .news-list li.nodate p { grid-column: 1; }
 
+/* ---------- Guide index ---------- */
+.guide-groups { display: grid; gap: 42px; margin-top: 46px; }
+.guide-group h2 { margin: 0 0 6px; font-size: 1.28rem; }
+.guide-group-summary { margin: 0; color: var(--ink-soft); }
+.guide-group .news-list { margin: 14px 0 0; }
+.guide-group .news-list li:first-child { border-top: 1px solid var(--line); }
+
 /* ---------- News & Roadmap (3-column cards) ---------- */
 .container.wide { max-width: 1280px; }
 .nr-grid {

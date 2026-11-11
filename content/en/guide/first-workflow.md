@@ -1,6 +1,7 @@
 ---
 title: "Your first workflow"
-weight: 1
+weight: 30
+guide_group: "getting-started"
 summary: "Generate samples with a Gaussian distribution and fit them — the complete Gen → Fit example."
 ---
 

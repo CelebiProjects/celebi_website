@@ -1,6 +1,7 @@
 ---
 title: "Working with raw data"
-weight: 2
+weight: 20
+guide_group: "core-data"
 summary: "Bring data into Celebi — locally, from DITE, or straight from an SSH runner — and manage it by MD5."
 ---
 

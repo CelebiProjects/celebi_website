@@ -1,6 +1,6 @@
 baseURL = "https://celebi.labz0.org/"
 title = "Celebi"
-theme = ""
+theme = []
 
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false

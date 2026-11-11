@@ -1,11 +1,18 @@
 ---
-title: "1. Starting an Analysis"
+title: "Remote analysis with SSH data"
+weight: 10
+guide_group: "workflow-tutorials"
 summary: "Learn how to run a Celebi analysis with remote data and locally managed code."
 ---
 
-# Starting an Analysis with Celebi
+# Remote Analysis with SSH Data
 
 This tutorial demonstrates how to set up and run a physics analysis using **Celebi**.
+
+It is the SSH-runner learning path. Complete [Installation and first
+start](/guide/setup/) and [Runners and environments](/guide/runners-and-environments/)
+first, or use [Your first workflow](/guide/first-workflow/) for the shorter local
+example.
 
 In this example:
 

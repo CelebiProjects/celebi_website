@@ -1,10 +1,11 @@
 ---
-title: "2. Extending a Workflow"
-weight: 2
+title: "Extending a remote workflow"
+weight: 20
+guide_group: "workflow-tutorials"
 summary: "Extend an existing Celebi analysis by chaining tasks and managing their dependencies."
 ---
 
-# Extending a Workflow
+# Extending a Remote Workflow
 
 This tutorial demonstrates how to extend an existing **Celebi workflow** by adding a second filtering task (`filter1`) after `filter0`.
 
@@ -14,7 +15,8 @@ By connecting multiple tasks, we can build a longer analysis pipeline while keep
 
 ## 1. Create a New Filter Task
 
-Starting from the project created in the previous tutorial, create a new task in the project root:
+Starting from the project created in [Remote analysis with SSH
+data](/guide/1_starting_on_analysis/), create a new task in the project root:
 
 ```celebi
 >>>> create-task filter1

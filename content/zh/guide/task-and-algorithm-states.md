@@ -1,6 +1,7 @@
 ---
 title: "任务与算法的状态"
-weight: 2
+weight: 10
+guide_group: "core-data"
 summary: "本地 new/impressed 两层状态,以及提交后 DITE 上以音乐命名的作业状态体系。"
 ---
 

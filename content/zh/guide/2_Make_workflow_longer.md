@@ -1,10 +1,11 @@
 ---
-title: "2. 扩展 Celebi 工作流"
-weight: 2
+title: "扩展远程工作流"
+weight: 20
+guide_group: "workflow-tutorials"
 summary: "通过连接多个任务及管理任务依赖关系，扩展已有的 Celebi 分析工作流。"
 ---
 
-# 扩展 Celebi 工作流
+# 扩展远程工作流
 
 本教程介绍如何扩展已有的 **Celebi 工作流**，在上一教程创建的 `filter0` 任务之后添加第二个筛选任务 `filter1`。
 
@@ -14,7 +15,8 @@ summary: "通过连接多个任务及管理任务依赖关系，扩展已有的 
 
 ## 1. 创建新的筛选任务
 
-在上一教程创建的项目中，进入项目根目录并创建新任务：
+从[使用 SSH 数据进行远程分析](/zh/guide/1_starting_on_analysis/)创建的项目
+继续，进入项目根目录并创建新任务：
 
 ```celebi
 >>>> create-task filter1

@@ -1,6 +1,7 @@
 ---
 title: "你的第一个工作流"
-weight: 1
+weight: 30
+guide_group: "getting-started"
 summary: "用高斯分布产生样本并拟合 —— 完整的 Gen → Fit 示例。"
 ---
 

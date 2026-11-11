@@ -1,12 +1,15 @@
 ---
-title: "3. Using the Celebi VS Code Extension"
-weight: 3
+title: "Inspecting results in VS Code"
+weight: 30
+guide_group: "workflow-tutorials"
 summary: "Manage Celebi workflows, inspect task dependencies, and preview remote analysis results directly in VS Code."
 ---
 
-# Using the Celebi VS Code Extension
+# Inspecting Results in VS Code
 
-In the previous tutorials, we learned how to create Celebi workflows, connect multiple tasks, and execute analysis code on a remote server.
+After [building a remote analysis](/guide/1_starting_on_analysis/) and
+[extending its workflow](/guide/2_make_workflow_longer/), you can use the Celebi
+extension to inspect the project and its remote results in VS Code.
 
 However, using the command-line interface alone makes it less convenient to inspect task details and examine output files, especially when dealing with large datasets stored remotely.
 
@@ -36,7 +39,8 @@ You can expand directories and select individual tasks to navigate through your 
 
 ### Connect to Celebi
 
-Make sure Yuki and Celebi have been started as described in the first tutorial.
+Make sure Yuki and Celebi have been started as described in [Installation and first
+start](/guide/setup/).
 
 Then click the **Refresh** button in the upper-right corner of the Celebi panel.
 

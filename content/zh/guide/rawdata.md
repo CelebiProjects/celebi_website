@@ -1,6 +1,7 @@
 ---
 title: "使用原始数据"
-weight: 2
+weight: 20
+guide_group: "core-data"
 summary: "把数据引入 Celebi —— 本地、来自 DITE、或直接从 SSH runner 上登记,并以 MD5 管理。"
 ---
 

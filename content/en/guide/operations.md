@@ -1,6 +1,7 @@
 ---
 title: "Operations and recovery"
-weight: 6
+weight: 10
+guide_group: "operations-reference"
 summary: "Monitor and recover workflows, maintain storage, publish bookkeeping, and operate Yuki."
 ---
 

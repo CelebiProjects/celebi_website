@@ -1,6 +1,7 @@
 ---
 title: "Command reference"
-weight: 3
+weight: 20
+guide_group: "operations-reference"
 summary: "A categorized quick reference for the Celebi shell, one-shot CLI, and Git commands."
 ---
 
@@ -51,9 +52,13 @@ callable and are listed separately by `celebi-cli --help`.
 | `create-multi-data <path>` | Create and upload one data object per immediate child directory |
 | `create-data-list <name>` | Create a data-list object |
 | `create-lhcb-ap-list <name>` | Create an LHCb AP data-list task (generates `dataList.txt` dynamically; fill in the AP query parameters afterwards) |
-| `add-apd-token <token>` | Store an APD token for the current LHCb AP data-list task (in `.celebi/config.local.json`) |
+| `add-apd-token <token>` | Store an APD token in `.celebi/config.local.json` for the current AP data-list or ordinary execution Task |
 
 ## Wiring objects & parameters
+
+For repeated execution of one Task, configure `subtasks: N` in its YAML.
+See [repeated tasks and Gaussian toys]({{< relref "subtasks.md" >}}) for indexed
+inputs and literal `stageout/index/` outputs.
 
 | Command | Purpose and usage |
 |---|---|
@@ -111,7 +116,7 @@ callable and are listed separately by `celebi-cli --help`.
 | `submit [--runner <name>] [--timeout <seconds>] [--with-unknown]` | Submit the current task or container for execution |
 | `status [--wait] [--poll-interval <seconds>]` | Show status and optionally poll until terminal state — see [Task and algorithm states](/guide/task-and-algorithm-states/) |
 | `cancel` | Cancel running impressions for the current task or directory |
-| `log [index] [--follow]` | Show a user-command log, optionally following new output |
+| `log [index] [--subtask <n>] [--follow]` | Show a command log; select a repeated execution with `--subtask` |
 | `collect [all\|plots\|data\|logs\|<glob>\|<name>] [--allow-failed]` | Collect task results; defaults to plots + logs |
 | `engine-logs [--fetch]` | Display saved workflow engine logs or fetch them from DITE |
 | `collect-outputs` / `collect-logs` | Collect only outputs or logs |
@@ -173,6 +178,7 @@ location; use `yuki` instead.
 | `register-xrootd-data <runner> <root-url> [--checksum auto\|required\|none]` | Freeze an XRootD sample as a datalist without copying payloads through Yuki |
 | `verify-data` | Verify the current data task: recompute its MD5 against the registered UUID |
 | `attach-data <uuid> [--path <path>]` | Attach a Yuki impression to a rawdata task |
+| `share-ssh-impressions <runner> (--export\|--import) [--force]` | Export or import complete active Task impressions through an SSH runner's managed store |
 | `whereabouts` | Show whether the current result is in Yuki Storage or runner caches |
 | `transfer <source> <destination>` | Move results between `yuki` and `runner:<name>` locations |
 | `cache-results <runner>` | Copy the current result into an SSH runner's managed cache |
