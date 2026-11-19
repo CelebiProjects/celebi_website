@@ -94,3 +94,7 @@ APD 任务，必须自行提供本地凭据。
 上没有可恢复副本,Yuki 会拒绝删除;`--force` 会有意覆盖这层保护。删除前先运行
 `whereabouts`。runner 范围的缓存和工作流清理见
 [运维与恢复](/zh/guide/operations/)。
+
+## 托管 EOS 缓存
+
+从 `1.1.2b1` 起，可通过 [EOS 统计与清理](/zh/guide/eos-cache/) 区分 live、non-live 和 unknown，预览删除清单并通过独立 REANA 作业复查。删除 REANA workflow 不会删除其 EOS 缓存。

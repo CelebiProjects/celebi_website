@@ -143,6 +143,24 @@ If you need to perform additional local processing or retain a copy of an output
 
 For large intermediate datasets, however, it is generally preferable to keep the files on the remote server and use the preview functionality whenever possible.
 
+### 4.4 Remote SSH and native output previews
+
+When Celebi and Yuki run on a server, use the extension build containing the
+Remote SSH preview fix. Install the VSIX in the Remote SSH window with
+**Extensions: Install from VSIX…**, ensure it is installed on the remote host,
+and reload the window. Image, PDF, and text previews use VS Code forwarding;
+`DITE: connected` alone only confirms the extension host can reach Yuki.
+
+[Yuki `1.1.2b1`](/releases/v1.1.2b1/) also fixes direct reads of native output
+files that have not been collected. Update the server code and reload the Yuki
+HTTP service to enable this behavior. With an older server, run
+`celebi-cli collect plots` in the task directory and refresh the results.
+
+Direct preview requires the output to remain available in the native execution
+workspace and readable by Yuki. Collection remains useful for retaining results
+in Yuki Storage. If a preview fails, check the output location with
+`celebi-cli whereabouts`, the selected impression, and Yuki connectivity.
+
 ## 5. Summary
 
 The Celebi VS Code extension provides a convenient graphical interface for working with Celebi analysis projects.
@@ -158,3 +176,23 @@ Its main features include:
 Together with the Celebi command-line interface, the extension provides a more efficient way to develop and manage complex physics analyses.
 
 **With Celebi, you can focus on developing analysis code locally while keeping large datasets and intermediate results on the remote server, previewing them whenever needed.**
+
+## Detail panel and status refresh
+
+Recent companion VSIX builds display README, predecessors, successors and
+`celebi.yaml` before the potentially slow current-impression check. Job Status
+then groups Impression ID, Run Status and Results. A blue `new` belongs to the
+current task's impression state; `finished`, runner and workflow ID belong to
+the displayed impression and update together.
+
+The last saved impression's results can appear while the current task is still
+refreshing. Historical results are labeled when the task is now `new`. Status
+checks are cached across task selections; use **Refresh** after external edits
+or impress operations. Directory requests use a separate worker from slow checks.
+
+File lists do not wait for workflow status, logs or preview port forwarding.
+Previously loaded lists are cached; an uncached impression still needs its file
+list fetched from Yuki. PNG and PDF previews include filename links. The right-hand
+Results filter supports `*` and `?`, for example `*.pdf` or `*bin072*`; clear it to
+show all files. These plugin changes require a separate VSIX update and are not
+part of the Python package version number.

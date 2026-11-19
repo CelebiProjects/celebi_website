@@ -101,3 +101,7 @@ one.
 Yuki refuses if no runner copy can be used to recover it; `--force` deliberately
 overrides that protection. Inspect `whereabouts` before purging. Runner-wide cache
 and workflow cleanup is described in [Operations and recovery](/guide/operations/).
+
+## Managed EOS caches
+
+Since `1.1.2b1`, use [EOS usage and cleanup](/guide/eos-cache/) to measure live, non-live and unknown cache through REANA, preview deletion manifests and verify cleanup. Deleting a REANA workflow does not delete its EOS cache.

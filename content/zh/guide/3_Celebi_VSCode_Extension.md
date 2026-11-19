@@ -146,6 +146,21 @@ Celebi 扩展也支持预览 PDF 输出文件，例如拟合结果和各种诊�
 
 不过，对于大型中间数据文件，通常更推荐将其保留在远程服务器上，并尽可能使用预览功能进行检查。
 
+### 4.4 Remote SSH 与 native 输出预览
+
+当 Celebi 和 Yuki 都运行在服务器上时，使用包含 Remote SSH 预览修复的扩展构建。
+在 Remote SSH 窗口执行 **Extensions: Install from VSIX…**，确认安装到远端，
+然后重载窗口。图片、PDF 和文本预览会使用 VS Code 转发地址；
+`DITE: connected` 本身只表示扩展端可以访问 Yuki。
+
+[Yuki `1.1.2b1`](/zh/releases/v1.1.2b1/) 还修复了未 collect 的 native 输出直接
+读取。更新服务端代码并重新加载 Yuki HTTP 服务后生效。使用旧版服务端时，可以
+先在对应 task 目录运行 `celebi-cli collect plots`，再刷新结果。
+
+直接预览要求文件仍存在于 native 执行工作区，且 Yuki 可以读取。需要在
+Yuki Storage 保留结果时，仍可 collect。预览失败时，可用
+`celebi-cli whereabouts` 检查文件位置，并核对所选 impression 和 Yuki 连接。
+
 ## 5. 总结
 
 Celebi VS Code 扩展为 Celebi 分析项目提供了方便的图形化管理界面。
@@ -161,3 +176,19 @@ Celebi VS Code 扩展为 Celebi 分析项目提供了方便的图形化管理界
 结合 Celebi 命令行工具和 VS Code 扩展，我们可以更加高效地开发和管理复杂的物理分析工作流。
 
 **通过 Celebi，我们只需要在本地管理和开发分析程序，将大型数据集和中间结果保留在远程服务器上，并且可以随时预览这些结果，从而避免不必要的文件传输和本地存储开销。**
+
+## 详情面板与状态刷新
+
+近期配套 VSIX 构建会先显示 README、predecessors、successors 和 `celebi.yaml`，
+再检查当前 impression。Job Status 分组依次包含 Impression ID、Run Status 和
+Results。蓝色 `new` 是当前 task 的 impression 状态；`finished`、runner 和
+workflow ID 属于正在显示的 impression，并作为一组更新。
+
+查询期间可先展示最后保存的 impression 的结果；如果当前 task 已变为 `new`，
+会标明下面显示的是历史结果。状态检查跨 task 切换复用缓存，外部修改或 impress
+后可点击 **Refresh** 强制检查。目录请求与慢状态检查使用不同进程。
+
+文件列表不等待运行状态、日志或预览端口转发。已加载的列表先用缓存展示，首次
+查看仍需向 Yuki 获取文件清单。PNG 和 PDF 下方都有文件名链接；Results 右侧
+筛选框支持 `*`、`?`，如 `*.pdf`、`*bin072*`，清空后显示全部。
+这些界面改动需要单独更新 VSIX，不随 Python 包版本号自动安装。
